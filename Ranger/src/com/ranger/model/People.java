@@ -1,10 +1,15 @@
 package com.ranger.model;
 
+import java.util.List;
+
 public class People {
 
 	private String _name;
+	private String _gender;
 	private String _age;
-	private String _mailBox;
+	private String _mail;
+
+	private List<Tag> _tags;
 
 	public String getName() {
 		return _name;
@@ -12,6 +17,22 @@ public class People {
 
 	public void setName(String name) {
 		this._name = name;
+	}
+
+	public String getGender() {
+		return _gender;
+	}
+
+	public void setGender(String gender) {
+		this._gender = gender;
+	}
+
+	public String getMail() {
+		return _mail;
+	}
+
+	public void setMail(String mail) {
+		this._mail = mail;
 	}
 
 	public String getAge() {
@@ -22,12 +43,12 @@ public class People {
 		this._age = age;
 	}
 
-	public String getMailBox() {
-		return _mailBox;
+	public List<Tag> getTags() {
+		return _tags;
 	}
 
-	public void setMailBox(String mailBox) {
-		this._mailBox = mailBox;
+	public void setTags(List<Tag> tags) {
+		this._tags = tags;
 	}
 
 }
