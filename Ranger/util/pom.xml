@@ -9,5 +9,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
 	</parent>
-	<dependencies/>		 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+	</dependencies>
+            	 
 </project>

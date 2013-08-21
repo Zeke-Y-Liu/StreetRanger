@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">   
+    <bean id="testBean" class="com.ranger.common.People"/>    
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/ranger"/>
+        <property name="username" value="rangeruser"></property>
+        <property name="password" value="Dilip987"></property>
+    </bean>
+    <bean id="jdbcTemplate"
+        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false"
+        lazy-init="false" autowire="default" dependency-check="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>    
+    <bean id="dao" class="com.ranger.dao.Dao">
+       <property name="jdbcTemplate">
+          <ref bean="jdbcTemplate" />
+       </property>
+    </bean>
+</beans>
