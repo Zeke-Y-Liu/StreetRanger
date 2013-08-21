@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="messageposter/src/test/java"/>
+	<classpathentry kind="src" path="analyzer/src/main/java"/>
+	<classpathentry kind="src" path="analyzer/src/test/java"/>
+	<classpathentry kind="src" path="dao/src/test/java"/>
+	<classpathentry kind="src" path="messageposter/src/main/java"/>
+	<classpathentry kind="src" path="util/src/main/java"/>
+	<classpathentry kind="src" path="collector/src/test/java"/>
+	<classpathentry kind="src" path="util/src/test/java"/>
+	<classpathentry kind="src" path="collector/src/main/java"/>
+	<classpathentry kind="src" path="common/src/test/java"/>
+	<classpathentry kind="src" path="common/src/main/java"/>
+	<classpathentry kind="src" path="dao/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

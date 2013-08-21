@@ -1,4 +1,4 @@
-package com.ranger.model;
+package com.ranger.common;
 
 import java.util.List;
 
