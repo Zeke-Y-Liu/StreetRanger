@@ -18,6 +18,9 @@ public class Dao {
 	}
 	
 	public int[] batchInsert(List<People> people) {
+		// get current max id of people
+		// String sql = "SELECT MAX(ID) FROM PEOPLE";
+		// jdbcTemplate.queryForMap(sql);
 		String sql = "INSERT INTO PEOPLE(NAME, GENDER, AGE, EMAIL) values(?, ?, ?, ?)";
 		int[] argTypes = new int[] {Types.VARCHAR, Types.CHAR, Types.INTEGER, Types.VARCHAR};
 		List<Object[]> batchArgs = new ArrayList<Object[]>();

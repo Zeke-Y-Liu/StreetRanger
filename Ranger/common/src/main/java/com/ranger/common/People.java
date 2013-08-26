@@ -1,5 +1,6 @@
 package com.ranger.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class People {
@@ -55,6 +56,9 @@ public class People {
 	}
 
 	public List<Tag> getTags() {
+		if(_tags == null) {
+			_tags = new ArrayList<Tag>();
+		}
 		return _tags;
 	}
 
