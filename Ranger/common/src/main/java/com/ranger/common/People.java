@@ -3,13 +3,15 @@ package com.ranger.common;
 import java.util.ArrayList;
 import java.util.List;
 
-public class People {
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-	public People() {
-		
-	}
+public class People {
 	
-	public People(String name, char gender, int age, String email) {
+	private Long _id;
+	
+	public People(Long id, String name, char gender, int age, String email) {
+		this._id = id;
 		this._name = name;
 		this._age = age;
 		this._gender = gender;
@@ -66,4 +68,34 @@ public class People {
 		this._tags = tags;
 	}
 
+	public Long getId() {
+		return _id;
+	}
+
+	public void setId(Long id) {
+		this._id = id;
+	}
+	
+	@Override
+	public int hashCode() {
+	     return new HashCodeBuilder(7, 13)
+	       .append(_name)
+	       .append(_age)
+	       .append(_gender)
+	       .append(_email)
+	       .toHashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) { return false; }
+		if (obj == this) { return true; }
+		if (obj.getClass() != getClass()) { return false; }
+		People p = (People) obj;
+		return new EqualsBuilder()
+			.append(_name, p.getName())
+			.append(_age, p.getAge())
+			.append(_gender, p.getGender())
+			.append(_email, p.getEmail()).isEquals();
+	}
 }
