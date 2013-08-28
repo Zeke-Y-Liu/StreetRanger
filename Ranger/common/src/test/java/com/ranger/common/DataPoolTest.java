@@ -2,8 +2,8 @@ package com.ranger.common;
 
 import java.util.List;
 
-import junit.framework.Assert;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DataPoolTest {
