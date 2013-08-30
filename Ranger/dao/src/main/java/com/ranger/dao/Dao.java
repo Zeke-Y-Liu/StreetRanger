@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
 
-import com.ranger.common.People;
+import com.ranger.common.User;
 import com.ranger.common.Tag;
 
 public class Dao {
@@ -32,20 +32,21 @@ public class Dao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<People> loadPeopleByNameLike(String name) {
+	public List<User> loadUserByNameLike(String name) {
 		String sql = "SELECT ID, NAME, GENDER, AGE, EMAIL FROM PEOPLE WHERE NAME LIKE ?";
-		return jdbcTemplate.query(sql, new String[]{ "%" + name + "%" }, new PeopleRowMapper());
+		return jdbcTemplate.query(sql, new String[]{ "%" + name + "%" }, new UserRowMapper());
 	}
 	
-	public List<People> batchInsertPeople(List<People> people) {
+	public List<User> batchInsertUser(List<User> users) {
 		// batch insert people
-		List<Long> ids = jdbcTemplate.execute(new PeoplePreparedStatementCreator(people), new PeoplePreparedStatementCallback());
+		List<Long> ids = jdbcTemplate.execute(new UserPreparedStatementCreator(users), new UserPreparedStatementCallback());
 		// populate tags with the ids of people
 		List<Tag> allTags = new ArrayList<Tag>();
-		for(int i=0; i<people.size(); i++ ) {
-			People p = people.get(i);
-			p.setId(ids.get(i));
-			List<Tag> tags = p.getTags();
+		for(int i=0; i<users.size(); i++ ) {
+			User u = users.get(i);
+			u.setId(ids.get(i));
+			
+			List<Tag> tags = u.getTags();
 			for(Tag tag : tags) {
 				tag.setPeopleId(ids.get(i));
 			}
@@ -61,16 +62,14 @@ public class Dao {
 			batchTags.add(row);
 		 }
 		 jdbcTemplate.batchUpdate(sql, batchTags, argTypes);
-		 return people;
+		 return users;
 	}
 }
 
-class PeoplePreparedStatementCreator implements PreparedStatementCreator {
-
-	private List<People> _people;
-
-	public PeoplePreparedStatementCreator(List<People> people) {
-		this._people = people;
+class UserPreparedStatementCreator implements PreparedStatementCreator {
+	private List<User> users;
+	public UserPreparedStatementCreator(List<User> users) {
+		this.users = users;
 	}
 
 	@Override
@@ -78,19 +77,16 @@ class PeoplePreparedStatementCreator implements PreparedStatementCreator {
 		String sql = "INSERT INTO PEOPLE(NAME, GENDER, AGE, EMAIL) values(?, ?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
-		for (People p : _people) {
-			ps.setString(1, p.getName());
-			ps.setString(2, String.valueOf(p.getGender()));
-			ps.setInt(3, p.getAge());
-			ps.setString(4, p.getEmail());
+		for (User u : users) {
+			ps.setString(1, u.getName());
+			ps.setString(2, String.valueOf(u.getGender()));
 			ps.addBatch();
 		}
 		return ps;
 	}
 }
 
-class PeoplePreparedStatementCallback implements PreparedStatementCallback<List<Long>> {
-
+class UserPreparedStatementCallback implements PreparedStatementCallback<List<Long>> {
 	@Override
 	public List<Long> doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
 		List<Long> ids = new ArrayList<Long>();
@@ -103,14 +99,12 @@ class PeoplePreparedStatementCallback implements PreparedStatementCallback<List<
 	}
 }
 
-class PeopleRowMapper implements RowMapper<People> {
+class UserRowMapper implements RowMapper<User> {
 
-	
-	
 	@Override
-	public People mapRow(ResultSet rs, int rowIdx) throws SQLException {		
-		People p = new People(rs.getLong(1), rs.getString(2),rs.getString(3).charAt(0), rs.getInt(4), rs.getString(5));
-		return p;
+	public User mapRow(ResultSet rs, int rowIdx) throws SQLException {		
+		User u = new User();
+		return u;
 	}
 	
 }

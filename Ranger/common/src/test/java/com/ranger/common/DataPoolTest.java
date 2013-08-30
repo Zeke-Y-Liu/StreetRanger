@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class DataPoolTest {
 	@Test
 	public void testAdd() {
-		DataPool<String> pool = new DataPool<String>(2);
+		DataPool<String> pool = new ListDataPool<String>(2);
 		Assert.assertTrue(pool.add("aaaa"));
 		Assert.assertTrue(pool.add("bbbb"));
 		Assert.assertFalse(pool.add("cccc"));
@@ -17,7 +17,7 @@ public class DataPoolTest {
 	
 	@Test
 	public void testIsFull() {
-		DataPool<String> pool = new DataPool<String>(3);
+		DataPool<String> pool = new ListDataPool<String>(3);
 		pool.add("aaaa");
 		pool.add("bbbb");
 		pool.add("cccc");
@@ -26,13 +26,13 @@ public class DataPoolTest {
 	
 	@Test
 	public void testIsEmpty() {
-		DataPool<String> pool = new DataPool<String>(3);
+		DataPool<String> pool = new ListDataPool<String>(3);
 		Assert.assertTrue(pool.isEmpty());
 	}
 	
 	@Test
 	public void testClean() {
-		DataPool<String> pool = new DataPool<String>(3);
+		DataPool<String> pool = new ListDataPool<String>(3);
 		pool.add("aaaa");
 		pool.add("bbbb");
 		pool.add("cccc");
@@ -46,7 +46,7 @@ public class DataPoolTest {
 	
 	@Test
 	public void testDumpOut() {
-		DataPool<String> pool = new DataPool<String>(8);
+		DataPool<String> pool = new ListDataPool<String>(8);
 		pool.add("aaaa");
 		pool.add("bbbb");
 		pool.add("cccc");
@@ -55,7 +55,7 @@ public class DataPoolTest {
 		pool.add("ffff");
 		pool.add("gggg");
 		pool.add("hhhh");
-		List<String> output = pool.dumpOut();
+		List<String> output = (List)pool.dumpOut();
 		Assert.assertTrue(output.size() == 8);
 		Assert.assertTrue(pool.isEmpty());
 	}

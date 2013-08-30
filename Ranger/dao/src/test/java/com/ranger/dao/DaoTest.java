@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ranger.common.People;
 import com.ranger.common.Tag;
+import com.ranger.common.User;
 
 public class DaoTest {
 	@Test
@@ -20,10 +20,10 @@ public class DaoTest {
 		jdbcTemplate.execute("DELETE FROM TAG WHERE NAME LIKE 'TEST%'");
 		jdbcTemplate.execute("DELETE FROM PEOPLE WHERE NAME LIKE 'TEST%'");
 		
-		List<People> people = new ArrayList<People>();
+		List<User> users = new ArrayList<User>();
 		for (int i = 0; i < 100; i++) {
-			People p = new People(null, "TEST" + i, 'M', 88, "xxxx@gmail.com");
-			people.add(p);
+			User u = new User();
+			users.add(u);
 			// for each people, create some tags.
 			// the number of tags varies from 0 to 4
 			int tagNum = i % 5;
@@ -32,27 +32,27 @@ public class DaoTest {
 				Tag tag = new Tag(null, "Test_" + i + "_" + j);
 				tags.add(tag);
 			}
-			p.setTags(tags);
+			u.setTags(tags);
 		}
-		List<People> result = dao.batchInsertPeople(people);
+		List<User> result = dao.batchInsertUser(users);
 		Assert.assertTrue(result.size() == 100);
 		// further verification
-		List<People> loadedPeople = dao.loadPeopleByNameLike("TEST");
-		Assert.assertTrue(loadedPeople.size() == 100);
-		Collections.sort(loadedPeople, new PeopleComparator());
+		List<User> loadedUsers = dao.loadUserByNameLike("TEST");
+		Assert.assertTrue(loadedUsers.size() == 100);
+		Collections.sort(loadedUsers, new UserComparator());
 		for(int j=0; j < 100; j++) {
-			Assert.assertEquals(people.get(j), loadedPeople.get(j));
+			Assert.assertEquals(users.get(j), loadedUsers.get(j));
 		}
 		
 	}
 }
 
-class PeopleComparator implements Comparator<People> {
+class UserComparator implements Comparator<User> {
 
 	@Override
-	public int compare(People p1, People p2) {
+	public int compare(User u1, User u2) {
 		
-		return p1.getId().compareTo(p2.getId());
+		return u1.getId().compareTo(u2.getId());
 	}
 	
 }

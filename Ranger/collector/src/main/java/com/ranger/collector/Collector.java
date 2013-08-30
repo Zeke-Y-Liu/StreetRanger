@@ -1,11 +1,12 @@
 package com.ranger.collector;
 
-import com.ranger.common.People;
+import com.ranger.common.User;
+
 
 public class Collector {
 
-	public People getPeopleInfo(String identity) {
-		// People p = new People();
+	public User getUserInfo(String identity) {
+		User u = new User();
 		return null;
 	}
 	
