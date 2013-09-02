@@ -28,8 +28,8 @@ public class DaoTest {
 			// the number of tags varies from 0 to 4
 			int tagNum = i % 5;
 			List<Tag> tags = new ArrayList<Tag>();
-			for (int j = 0; j < tagNum; j++) {
-				Tag tag = new Tag(null, "Test_" + i + "_" + j);
+			for (int j = 0; j < tagNum; j++) {				
+				Tag tag = new Tag(null, "Test_tid" + i + "_" + j,"value", "weight", null);
 				tags.add(tag);
 			}
 			u.setTags(tags);

@@ -41,7 +41,6 @@ public class User {
 	private String verifiedReason;		  //39 认证原因
 	private String weihao;				  //30 微號
 	private String statusId;			  //31 
-	private Status status = null;         //32  用户最新一条微博
 	
 	private List<Tag> tags;
 	
@@ -74,8 +73,7 @@ public class User {
 			boolean allowAllComment, 
 			boolean followMe, 
 			String avatarLarge, 
-			int onlineStatus, 
-			Status status,  
+			int onlineStatus,  
 			int biFollowersCount, 
 			String remark, 
 			String lang, 
@@ -108,7 +106,6 @@ public class User {
 		this.followMe = followMe;
 		this.avatarLarge = avatarLarge;
 		this.onlineStatus = onlineStatus;
-		this.status = status;
 		this.biFollowersCount = biFollowersCount;
 		this.remark = remark;
 		this.lang = lang;
@@ -385,17 +382,6 @@ public class User {
 	public void setOnlineStatus(int onlineStatus) {
 		this.onlineStatus = onlineStatus;
 	}
-
-
-	public Status getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 
 	public int getBiFollowersCount() {
 		return biFollowersCount;

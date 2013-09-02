@@ -5,35 +5,64 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Tag {
 
-	public Tag(Long peopleId, String name) {
-		this._peopleId = peopleId;
-		this._name = name;
+	public Tag(Long id, String tid, String value, String weight, Long userId) {
+		this.id = id;
+		this.tid = tid;
+		this.value = value;
+		this.weight = weight;
+		this.userId = userId;
 	}
 	
-	private String _name;
-	private Long _peopleId;
+	private Long id;
+	private String tid;
+	private String value;
+	private String weight;
+	private Long userId;	
 	
-	public String getName() {
-		return _name;
+	public Long getId() {
+		return id;
 	}
 
-	public void setName(String name) {
-		this._name = name;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Long getPeopleId() {
-		return _peopleId;
+	public String getTid() {
+		return tid;
 	}
 
-	public void setPeopleId(Long peopleId) {
-		this._peopleId = peopleId;
+	public void setTid(String tid) {
+		this.tid = tid;
 	}
-	
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+		
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	@Override
 	public int hashCode() {
 	     return new HashCodeBuilder(13, 23)
-	       .append(_name)
-	       .append(_peopleId)
+	       .append(tid)
 	       .toHashCode();
 	}
 	
@@ -44,8 +73,7 @@ public class Tag {
 		if (obj.getClass() != getClass()) { return false; }
 		Tag t = (Tag) obj;
 		return new EqualsBuilder()
-			.append(_name, t.getName())
-			.append(_peopleId, t.getPeopleId())
+			.append(tid, t.getTid())
 			.isEquals();
 	}
 	

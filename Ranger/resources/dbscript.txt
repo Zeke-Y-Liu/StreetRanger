@@ -45,10 +45,10 @@ CREATE TABLE `wb_tag` (
   `TID` char(20) NOT NULL,
   `WEIGHT` varchar(200) NOT NULL,
   `VALUE` varchar(200) NOT NULL,
-  `U_ID` bigint(20) DEFAULT NULL, -- user db primary key id, not the unique user uid
+  `USER_ID` bigint(20) DEFAULT NULL, -- user db primary key id, not the unique user uid
   PRIMARY KEY (`ID`),
   UNIQUE KEY `TID_UNIQUE` (`TID`),
-  CONSTRAINT `U_ID_TAG` FOREIGN KEY (`U_ID`) REFERENCES `wb_status` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `USER_ID_TAG` FOREIGN KEY (`USER_ID`) REFERENCES `wb_user` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 
 

@@ -23,6 +23,7 @@ import weibo4j.model.Status;
 
 import com.ranger.common.User;
 import com.ranger.common.Tag;
+import com.ranger.util.Bool;
 
 public class Dao {
 	private JdbcTemplate jdbcTemplate;
@@ -46,7 +47,7 @@ public class Dao {
 	public List<User> batchInsertUser(List<User> users) {
 		// batch insert people
 		List<Long> ids = jdbcTemplate.execute(new UserPreparedStatementCreator(users), new UserPreparedStatementCallback());
-		// populate tags with the ids of people
+		// populate tags with the ids of user
 		List<Tag> allTags = new ArrayList<Tag>();
 		for(int i=0; i<users.size(); i++ ) {
 			User u = users.get(i);
@@ -54,17 +55,17 @@ public class Dao {
 			
 			List<Tag> tags = u.getTags();
 			for(Tag tag : tags) {
-				tag.setPeopleId(ids.get(i));
+				tag.setUserId(ids.get(i));
 			}
 			allTags.addAll(tags);
 		}
 		
 		// batch insert tags
-		String sql = "INSERT INTO TAG(NAME, PEOPLE_ID) values(?, ?)";
-		int[] argTypes = new int[] {Types.VARCHAR, Types.BIGINT};
+		String sql = "INSERT INTO WB_TAG(TID, VALUE, WEIGHT,  USER_ID) values(?, ?, ?, ?)";
+		int[] argTypes = new int[] {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.BIGINT};
 		List<Object[]> batchTags = new ArrayList<Object[]>();
 		for(Tag tag : allTags) {
-			Object[] row = new Object[] { tag.getName(), tag.getPeopleId()};
+			Object[] row = new Object[] { tag.getTid(), tag.getValue(), tag.getWeight(), tag.getUserId()};
 			batchTags.add(row);
 		 }
 		 jdbcTemplate.batchUpdate(sql, batchTags, argTypes);
@@ -105,35 +106,12 @@ class UserPreparedStatementCreator implements PreparedStatementCreator {
 			if(u.getCreatedAt() != null) {
 				ps.setDate(16, new Date(u.getCreatedAt().getTime()));
 			}
-			if(u.isFollowing()) {
-				ps.setString(17, "Y");
-			} else {
-				ps.setString(17, "N");
-			}
-			if(u.isVerified()) {
-				ps.setString(18, "Y");
-			} else {
-				ps.setString(18, "N");
-			}
-			ps.setInt(19, u.getVerifiedType());
-			
-			if(u.isAllowAllActMsg()) {
-				ps.setString(20, "Y");
-			} else {
-				ps.setString(20, "N");
-			}
-			
-			if(u.isAllowAllComment()) {
-				ps.setString(21, "Y");
-			} else {
-				ps.setString(21, "N");
-			}
-			
-			if(u.isFollowMe()) {
-				ps.setString(22, "Y");
-			} else {
-				ps.setString(22, "N");
-			}
+			ps.setString(17, Bool.getBool(u.isFollowing()).getValue());
+			ps.setString(18, Bool.getBool(u.isVerified()).getValue());
+			ps.setInt(19, u.getVerifiedType());			
+			ps.setString(20, Bool.getBool(u.isAllowAllActMsg()).getValue());
+			ps.setString(21, Bool.getBool(u.isAllowAllComment()).getValue());
+			ps.setString(22, Bool.getBool(u.isFollowMe()).getValue());
 			ps.setString(23, u.getAvatarLarge());
 			ps.setInt(24, u.getOnlineStatus());
 			ps.setInt(25, u.getBiFollowersCount());
@@ -188,14 +166,14 @@ class UserRowMapper implements RowMapper<User> {
 				rs.getInt(15), 
 				rs.getInt(16),
 				rs.getDate(17), 
-				rs.getString(18).equalsIgnoreCase("Y"),
-				rs.getString(19).equalsIgnoreCase("Y"),
-				rs.getInt(20),rs.getString(21).equalsIgnoreCase("Y"),
-				rs.getString(22).equalsIgnoreCase("Y"),
-				rs.getString(23).equalsIgnoreCase("Y"),
+				Bool.getBoolean(rs.getString(18)),
+				Bool.getBoolean(rs.getString(19)),
+				rs.getInt(20),
+				Bool.getBoolean(rs.getString(21)),
+				Bool.getBoolean(rs.getString(22)),
+				Bool.getBoolean(rs.getString(23)),
 				rs.getString(24),
 				rs.getInt(25),
-				null, // latest status
 				rs.getInt(26), 
 				rs.getString(27),
 				rs.getString(28),
