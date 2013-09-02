@@ -2,7 +2,6 @@ package com.ranger.collector;
 
 import com.ranger.common.User;
 
-import weibo4j.model.User;
 /*
  * 1. hold a set of weibo user id in a pool, for each id, get user's information
  * 2. put the user into user pool, if the pool is full, flush the data pool to database
@@ -12,12 +11,10 @@ import weibo4j.model.User;
 
 public class Collector {
 
-	public User getUserInfo(String identity) {
-		User u = new User();
-	// private DataSetPool avaiableUserIdSetPool = new  DataSetPool();
-	// private DataSetPool userSetPool = new DataSetPool();
-	
 	public User getUserInfoByUid(String uid) {
+		User u = new User();
+		// private DataSetPool avaiableUserIdSetPool = new  DataSetPool();
+		// private DataSetPool userSetPool = new DataSetPool();
 		return null;
 	}
 	/*
