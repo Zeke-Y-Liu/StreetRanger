@@ -15,7 +15,7 @@ public class Collector {
 		User u = new User();
 		// private DataSetPool avaiableUserIdSetPool = new  DataSetPool();
 		// private DataSetPool userSetPool = new DataSetPool();
-		return null;
+		return u;
 	}
 	/*
 	 * return the number of available user ids

@@ -1,6 +1,5 @@
 package com.ranger.common;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,38 +10,38 @@ import weibo4j.model.Status;
 
 public class User {
 	
-	private Long id; // DB ID
-	private String uid;                    //用户UID
-	private String screenName;            //微博昵称
-	private String name;                  //友好显示名称，如Bill Gates,名称中间的空格正常显示(此特性暂不支持)
-	private int province;                 //省份编码（参考省份编码表）
-	private int city;                     //城市编码（参考城市编码表）
-	private String location;              //地址
-	private String description;           //个人描述
-	private String url;                   //用户博客地址
-	private String profileImageUrl;       //自定义图像
-	private String userDomain;            //用户个性化URL
-	private String gender;                //性别,m--男，f--女,n--未知
-	private int followersCount;           //粉丝数
-	private int friendsCount;             //关注数
-	private int statusesCount;            //微博数
-	private int favouritesCount;          //收藏数
-	private Date createdAt;               //创建时间
-	private boolean following;            //保留字段,是否已关注(此特性暂不支持)
-	private boolean verified;             //加V标示，是否微博认证用户
-	private int verifiedType;             //认证类型
-	private boolean allowAllActMsg;       //是否允许所有人给我发私信
-	private boolean allowAllComment;      //是否允许所有人对我的微博进行评论
-	private boolean followMe;             //此用户是否关注我
-	private String avatarLarge;           //大头像地址
-	private int onlineStatus;             //用户在线状态
-	private Status status = null;         //用户最新一条微博
-	private int biFollowersCount;         //互粉数
-	private String remark;                //备注信息，在查询用户关系时提供此字段。
-	private String lang;                  //用户语言版本
-	private String verifiedReason;		  //认证原因
-	private String weihao;				  //微號
-	private String statusId;
+	private Long id; 					  //1 DB ID
+	private String uid;                   //2 用户UID
+	private String screenName;            //3 微博昵称
+	private String name;                  //4 友好显示名称，如Bill Gates,名称中间的空格正常显示(此特性暂不支持)
+	private int province;                 //5 省份编码（参考省份编码表）
+	private int city;                     //6 城市编码（参考城市编码表）
+	private String location;              //7 地址
+	private String description;           //8 个人描述
+	private String url;                   //9 用户博客地址
+	private String profileImageUrl;       //10 自定义图像
+	private String userDomain;            //11 用户个性化URL
+	private String gender;                //12 性别,m--男，f--女,n--未知
+	private int followersCount;           //13 粉丝数
+	private int friendsCount;             //14 关注数
+	private int statusesCount;            //15 微博数
+	private int favouritesCount;          //16 收藏数
+	private Date createdAt;               //17 创建时间
+	private boolean following;            //18 保留字段,是否已关注(此特性暂不支持)
+	private boolean verified;             //19 加V标示，是否微博认证用户
+	private int verifiedType;             //20 认证类型
+	private boolean allowAllActMsg;       //21 是否允许所有人给我发私信
+	private boolean allowAllComment;      //22 是否允许所有人对我的微博进行评论
+	private boolean followMe;             //23 此用户是否关注我
+	private String avatarLarge;           //24 大头像地址
+	private int onlineStatus;             //25 用户在线状态	
+	private int biFollowersCount;         //26 互粉数
+	private String remark;                //27 备注信息，在查询用户关系时提供此字段。
+	private String lang;                  //28 用户语言版本
+	private String verifiedReason;		  //39 认证原因
+	private String weihao;				  //30 微號
+	private String statusId;			  //31 
+	private Status status = null;         //32  用户最新一条微博
 	
 	private List<Tag> tags;
 	
@@ -50,10 +49,41 @@ public class User {
 		
 	}
 	
-	public User(String uid, String screenName, String name, int province, int city, String location, String description, String url, String profileImageUrl,
-			String userDomain, String gender, int followersCount, int friendsCount, int statusesCount, int favouritesCount, Date createdAt, boolean following, 
-			boolean verified, int verifiedType, boolean allowAllActMsg, boolean allowAllComment, boolean followMe, String avatarLarge, int onlineStatus, Status status,  
-			int biFollowersCount, String remark, String lang, String verifiedReason, String weihao, String statusId, List<Tag> tags) {
+	public User(
+			Long id, 
+			String uid, 
+			String screenName, 
+			String name, 
+			int province, 
+			int city, 
+			String location, 
+			String description, 
+			String url, 
+			String profileImageUrl,
+			String userDomain, 
+			String gender, 
+			int followersCount, 
+			int friendsCount, 
+			int statusesCount, 
+			int favouritesCount, 
+			Date createdAt, 
+			boolean following, 
+			boolean verified, 
+			int verifiedType, 
+			boolean allowAllActMsg, 
+			boolean allowAllComment, 
+			boolean followMe, 
+			String avatarLarge, 
+			int onlineStatus, 
+			Status status,  
+			int biFollowersCount, 
+			String remark, 
+			String lang, 
+			String verifiedReason, 
+			String weihao, 
+			String statusId, 
+			List<Tag> tags) {
+		this.id = id;
 		this.uid = uid;
 		this.screenName = screenName;
 		this.name = name;
@@ -87,40 +117,6 @@ public class User {
 		this.statusId = statusId;
 		this.tags = tags;
 	}
-	
-	
-//	private String uid;                    //用户UID
-//	private String screenName;            //微博昵称
-//	private String name;                  //友好显示名称，如Bill Gates,名称中间的空格正常显示(此特性暂不支持)
-//	private int province;                 //省份编码（参考省份编码表）
-//	private int city;                     //城市编码（参考城市编码表）
-//	private String location;              //地址
-//	private String description;           //个人描述
-//	private String url;                   //用户博客地址
-//	private String profileImageUrl;       //自定义图像
-//	private String userDomain;            //用户个性化URL
-//	private String gender;                //性别,m--男，f--女,n--未知
-//	private int followersCount;           //粉丝数
-//	private int friendsCount;             //关注数
-//	private int statusesCount;            //微博数
-//	private int favouritesCount;          //收藏数
-//	private Date createdAt;               //创建时间
-//	private boolean following;            //保留字段,是否已关注(此特性暂不支持)
-//	private boolean verified;             //加V标示，是否微博认证用户
-//	private int verifiedType;             //认证类型
-//	private boolean allowAllActMsg;       //是否允许所有人给我发私信
-//	private boolean allowAllComment;      //是否允许所有人对我的微博进行评论
-//	private boolean followMe;             //此用户是否关注我
-//	private String avatarLarge;           //大头像地址
-//	private int onlineStatus;             //用户在线状态
-//	private Status status = null;         //用户最新一条微博
-//	private int biFollowersCount;         //互粉数
-//	private String remark;                //备注信息，在查询用户关系时提供此字段。
-//	private String lang;                  //用户语言版本
-//	private String verifiedReason;		  //认证原因
-//	private String weihao;				  //微號
-//	private String statusId;
-	
 	
 	@Override
 	public int hashCode() {
@@ -468,5 +464,4 @@ public class User {
 		this.tags = tags;
 	}	
 	
-		
 }

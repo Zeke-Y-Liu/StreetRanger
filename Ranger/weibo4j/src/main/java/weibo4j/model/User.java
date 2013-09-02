@@ -74,6 +74,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
 	private String verifiedReason;		  //认证原因
 	private String weihao;				  //微號
 	private String statusId;
+	
 	public String getVerified_reason() {
 		return verifiedReason;
 	}

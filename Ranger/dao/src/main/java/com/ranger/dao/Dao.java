@@ -2,6 +2,7 @@ package com.ranger.dao;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,8 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+
+import weibo4j.model.Status;
 
 
 import com.ranger.common.User;
@@ -33,7 +36,10 @@ public class Dao {
 	}
 
 	public List<User> loadUserByNameLike(String name) {
-		String sql = "SELECT ID, NAME, GENDER, AGE, EMAIL FROM PEOPLE WHERE NAME LIKE ?";
+		String sql = "SELECT ID, `UID`, `SCREEN_NAME`, `NAME`, `PROVINCE`, `CITY`, `LOCATION`, `DESCRIPTION`, `URL`, `PROFILE_IMAGE_URL`, " +
+				"`USER_DOMAIN`, `GENDER`, `FOLLOWERS_COUNT`, `FRIENDS_COUNT`, `STATUSES_COUNT`, `FAVOURITES_COUNT`, `CREATE_AT`, `FOLLOWING`, `VERIFIED`, " +
+				"`VERIFIED_TYPE`, `ALLOW_ALL_ACT_MSG`, `ALLOW_ALL_COMMENT`, `FOLLOW_ME`, `AVATAR_LARGE`, `ONLINE_STATUS`, `BI_FOLLOWERS_COUNT`, `REMARK`, " +
+				"`LANG`, `VERIFIED_REASON`, `WEIHAO`, `STATUS_ID`) WHERE NAME LIKE ?";
 		return jdbcTemplate.query(sql, new String[]{ "%" + name + "%" }, new UserRowMapper());
 	}
 	
@@ -74,12 +80,68 @@ class UserPreparedStatementCreator implements PreparedStatementCreator {
 
 	@Override
 	public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-		String sql = "INSERT INTO PEOPLE(NAME, GENDER, AGE, EMAIL) values(?, ?, ?, ?)";
+		String sql = "INSERT INTO WB_USER(`UID`, `SCREEN_NAME`, `NAME`, `PROVINCE`, `CITY`, `LOCATION`, `DESCRIPTION`, `URL`, `PROFILE_IMAGE_URL`, " +
+				"`USER_DOMAIN`, `GENDER`, `FOLLOWERS_COUNT`, `FRIENDS_COUNT`, `STATUSES_COUNT`, `FAVOURITES_COUNT`, `CREATE_AT`, `FOLLOWING`, `VERIFIED`, " +
+				"`VERIFIED_TYPE`, `ALLOW_ALL_ACT_MSG`, `ALLOW_ALL_COMMENT`, `FOLLOW_ME`, `AVATAR_LARGE`, `ONLINE_STATUS`, `BI_FOLLOWERS_COUNT`, `REMARK`, " +
+				"`LANG`, `VERIFIED_REASON`, `WEIHAO`, `STATUS_ID`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
 		for (User u : users) {
-			ps.setString(1, u.getName());
-			ps.setString(2, String.valueOf(u.getGender()));
+			ps.setString(1, u.getUid());
+			ps.setString(2, u.getScreenName());
+			ps.setString(3, u.getName());
+			ps.setInt(4, u.getProvince());
+			ps.setInt(5, u.getCity());
+			ps.setString(6, u.getLocation());
+			ps.setString(7, u.getDescription());
+			ps.setString(8, u.getUrl());
+			ps.setString(9, u.getProfileImageUrl());
+			ps.setString(10, u.getUserDomain());
+			ps.setString(11, u.getGender());
+			ps.setInt(12, u.getFollowersCount());
+			ps.setInt(13, u.getFriendsCount());
+			ps.setInt(14, u.getStatusesCount());
+			ps.setInt(15, u.getFavouritesCount());
+			if(u.getCreatedAt() != null) {
+				ps.setDate(16, new Date(u.getCreatedAt().getTime()));
+			}
+			if(u.isFollowing()) {
+				ps.setString(17, "Y");
+			} else {
+				ps.setString(17, "N");
+			}
+			if(u.isVerified()) {
+				ps.setString(18, "Y");
+			} else {
+				ps.setString(18, "N");
+			}
+			ps.setInt(19, u.getVerifiedType());
+			
+			if(u.isAllowAllActMsg()) {
+				ps.setString(20, "Y");
+			} else {
+				ps.setString(20, "N");
+			}
+			
+			if(u.isAllowAllComment()) {
+				ps.setString(21, "Y");
+			} else {
+				ps.setString(21, "N");
+			}
+			
+			if(u.isFollowMe()) {
+				ps.setString(22, "Y");
+			} else {
+				ps.setString(22, "N");
+			}
+			ps.setString(23, u.getAvatarLarge());
+			ps.setInt(24, u.getOnlineStatus());
+			ps.setInt(25, u.getBiFollowersCount());
+			ps.setString(26, u.getRemark());
+			ps.setString(27, u.getLang());
+			ps.setString(28, u.getVerifiedReason());
+			ps.setString(29, u.getWeihao());
+			ps.setString(30, u.getStatusId());
 			ps.addBatch();
 		}
 		return ps;
@@ -101,10 +163,46 @@ class UserPreparedStatementCallback implements PreparedStatementCallback<List<Lo
 
 class UserRowMapper implements RowMapper<User> {
 
+	String sql = "SELECT ID, `UID`, `SCREEN_NAME`, `NAME`, `PROVINCE`, `CITY`, `LOCATION`, `DESCRIPTION`, `URL`, `PROFILE_IMAGE_URL`, " +
+			"`USER_DOMAIN`, `GENDER`, `FOLLOWERS_COUNT`, `FRIENDS_COUNT`, `STATUSES_COUNT`, `FAVOURITES_COUNT`, `CREATE_AT`, `FOLLOWING`, `VERIFIED`, " +
+			"`VERIFIED_TYPE`, `ALLOW_ALL_ACT_MSG`, `ALLOW_ALL_COMMENT`, `FOLLOW_ME`, `AVATAR_LARGE`, `ONLINE_STATUS`, `BI_FOLLOWERS_COUNT`, `REMARK`, " +
+			"`LANG`, `VERIFIED_REASON`, `WEIHAO`, `STATUS_ID`) WHERE NAME LIKE ?";
+		
 	@Override
 	public User mapRow(ResultSet rs, int rowIdx) throws SQLException {		
-		User u = new User();
+		User u = new User(
+				rs.getLong(1), 
+				rs.getString(2),
+				rs.getString(3), 
+				rs.getString(4), 
+				rs.getInt(5),
+				rs.getInt(6),
+				rs.getString(7),
+				rs.getString(8), 
+				rs.getString(9), 
+				rs.getString(10), 
+				rs.getString(11),
+				rs.getString(12), 
+				rs.getInt(13), 
+				rs.getInt(14),
+				rs.getInt(15), 
+				rs.getInt(16),
+				rs.getDate(17), 
+				rs.getString(18).equalsIgnoreCase("Y"),
+				rs.getString(19).equalsIgnoreCase("Y"),
+				rs.getInt(20),rs.getString(21).equalsIgnoreCase("Y"),
+				rs.getString(22).equalsIgnoreCase("Y"),
+				rs.getString(23).equalsIgnoreCase("Y"),
+				rs.getString(24),
+				rs.getInt(25),
+				null, // latest status
+				rs.getInt(26), 
+				rs.getString(27),
+				rs.getString(28),
+				rs.getString(29),
+				rs.getString(30), 
+				rs.getString(31),
+				null);
 		return u;
 	}
-	
 }
