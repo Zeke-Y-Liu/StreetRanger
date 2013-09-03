@@ -3,6 +3,17 @@ package com.ranger.common;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+//CREATE TABLE `WB_TAG` (
+//		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+//		  `TID` char(20) NOT NULL,
+//		  `VALUE` varchar(200) NOT NULL,
+//		  `WEIGHT` varchar(200) NOT NULL,
+//		  `USER_ID` bigint(20) DEFAULT NULL, -- user db primary key id, not the unique user uid
+//		  PRIMARY KEY (`ID`),
+//		  UNIQUE KEY `TID_UNIQUE` (`TID`),
+//		  CONSTRAINT `USER_ID_TAG` FOREIGN KEY (`USER_ID`) REFERENCES `wb_user` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+//)
+
 public class Tag {
 
 	public Tag(Long id, String tid, String value, String weight, Long userId) {

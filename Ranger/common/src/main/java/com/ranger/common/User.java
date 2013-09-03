@@ -6,11 +6,45 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import weibo4j.model.Status;
+//CREATE TABLE `WB_USER` (
+//		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+//		  `UID` char(50) NOT NULL,
+//		  `SCREEN_NAME` varchar(100) NOT NULL,
+//		  `NAME` varchar(200) NOT NULL,
+//		  `PROVINCE` int(11) DEFAULT '-1',
+//		  `CITY` int(11) DEFAULT '-1',
+//		  `LOCATION` varchar(200) DEFAULT '',
+//		  `DESCRIPTION` varchar(200) DEFAULT '',
+//		  `URL` varchar(200) DEFAULT '',
+//		  `PROFILE_IMAGE_URL` varchar(200) DEFAULT '',
+//		  `USER_DOMAIN` varchar(100) DEFAULT '',
+//		  `GENDER` char(1) DEFAULT 'N',
+//		  `FOLLOWERS_COUNT` int(11) DEFAULT '0',
+//		  `FRIENDS_COUNT` int(11) DEFAULT '0',
+//		  `STATUSES_COUNT` int(11) DEFAULT '0',
+//		  `FAVOURITES_COUNT` int(11) DEFAULT '0',
+//		  `CREATE_AT` datetime DEFAULT NULL,
+//		  `FOLLOWING` char(1) DEFAULT 'N',
+//		  `VERIFIED` char(1) DEFAULT 'N',
+//		  `VERIFIED_TYPE` int(11) DEFAULT '-1',
+//		  `ALLOW_ALL_ACT_MSG` char(1) DEFAULT 'N',
+//		  `ALLOW_ALL_COMMENT` char(1) DEFAULT 'N',
+//		  `FOLLOW_ME` char(1) DEFAULT 'N',
+//		  `AVATAR_LARGE` varchar(200) DEFAULT '',
+//		  `ONLINE_STATUS` int(11) DEFAULT '-1',
+//		  `BI_FOLLOWERS_COUNT` int(11) DEFAULT '0',
+//		  `REMARK` varchar(500) DEFAULT '',
+//		  `LANG` char(2) DEFAULT 'CN',
+//		  `VERIFIED_REASON` varchar(100) DEFAULT '',
+//		  `WEIHAO` varchar(50) DEFAULT '',
+//		  `STATUS_ID` char(10) DEFAULT '',
+//		  PRIMARY KEY (`ID`),
+//		  UNIQUE KEY `UID_UNIQUE` (`UID`)
+//		) 
 
 public class User {
 	
-	private Long id; 					  //1 DB ID
+	private long id; 					  //1 DB ID
 	private String uid;                   //2 用户UID
 	private String screenName;            //3 微博昵称
 	private String name;                  //4 友好显示名称，如Bill Gates,名称中间的空格正常显示(此特性暂不支持)
@@ -49,7 +83,7 @@ public class User {
 	}
 	
 	public User(
-			Long id, 
+			long id, 
 			String uid, 
 			String screenName, 
 			String name, 
@@ -134,12 +168,12 @@ public class User {
 	}
 
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
