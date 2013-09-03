@@ -73,34 +73,34 @@ public class Dao {
 	 * batch insert users return the same user object with PK
 	 */
 	public List<Tag> batchInsertTag(List<Tag> tags) {
-			// batch insert tags
-			List<Long> ids = jdbcTemplate.execute(new TagPreparedStatementCreator(tags), new GeneratedKeysPreparedStatementCallback());			
-			// populate tags with the generaed PK			
-			for(int i=0; i<tags.size(); i++ ) {
-				Tag t = tags.get(i);
-				t.setId(ids.get(i));
-			}
-			return tags;
+		// batch insert tags
+		List<Long> ids = jdbcTemplate.execute(new TagPreparedStatementCreator(tags), new GeneratedKeysPreparedStatementCallback());			
+		// populate tags with the generaed PK			
+		for(int i=0; i<tags.size(); i++ ) {
+			Tag t = tags.get(i);
+			t.setId(ids.get(i));
 		}
-	
-		public Visible insertVisible(Visible visible) {
-			KeyHolder holder = new GeneratedKeyHolder();
-			jdbcTemplate.update(new VisiblePreparedStatementCreator(visible), holder);
-			visible.setId(holder.getKey().longValue());
-			return visible;
-		}
-		
-		public List<Status> batchInsertStatus(List<Status> statuses) {
-			// batch insert status
-			List<Long> ids = jdbcTemplate.execute(new StatusPreparedStatementCreator(statuses), new GeneratedKeysPreparedStatementCallback());			
-						// populate statuses with the generaed PK			
-						for(int i=0; i<statuses.size(); i++ ) {
-							Status s = statuses.get(i);
-							s.setId(ids.get(i));
-						}
-						return statuses;
-		}
+		return tags;
 	}
+	
+	public Visible insertVisible(Visible visible) {
+		KeyHolder holder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new VisiblePreparedStatementCreator(visible), holder);
+		visible.setId(holder.getKey().longValue());
+		return visible;
+	}
+		
+	public List<Status> batchInsertStatus(List<Status> statuses) {
+		// batch insert status
+		List<Long> ids = jdbcTemplate.execute(new StatusPreparedStatementCreator(statuses), new GeneratedKeysPreparedStatementCallback());			
+		// populate statuses with the generaed PK			
+		for(int i=0; i<statuses.size(); i++ ) {
+			Status s = statuses.get(i);
+			s.setId(ids.get(i));
+		}
+		return statuses;
+	}
+}
 
 class UserPreparedStatementCreator implements PreparedStatementCreator {
 	private List<User> users;
@@ -239,8 +239,6 @@ class TagPreparedStatementCreator implements PreparedStatementCreator {
 
 
 class TagRowMapper implements RowMapper<Tag> {
-
-	// `ID`, `TID`, `VALUE`, `WEIGHT`, `NAME`, `USER_ID`	
 	@Override
 	public Tag mapRow(ResultSet rs, int rowIdx) throws SQLException {		
 		Tag t = new Tag(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getLong(5));
@@ -279,8 +277,6 @@ class VisiblePreparedStatementCreator implements PreparedStatementCreator {
 }
 
 class VisibleRowMapper implements RowMapper<Visible> {
-
-	// `ID`, `TYPE`, `LIST_ID`
 	@Override
 	public Visible mapRow(ResultSet rs, int rowIdx) throws SQLException {		
 		Visible v = new Visible(rs.getLong(1), rs.getInt(2), rs.getInt(3));
@@ -294,32 +290,6 @@ class StatusPreparedStatementCreator implements PreparedStatementCreator {
 		public StatusPreparedStatementCreator(List<Status> satuses) {
 		this.satuses = satuses;
 	}
-
-//		CREATE TABLE `WB_STATUS` (
-//				  `STID` char(50) NOT NULL,
-//				  `USER_ID` bigint(20) DEFAULT NULL,
-//				  `CREATE_AT` datetime DEFAULT NULL,
-//				  `MID` char(100) DEFAULT NULL,
-//				  `ID_STR` bigint(20) DEFAULT -1,  
-//				  `TEXT` varchar(500) DEFAULT '',
-//				  `SR_ID` bigint(20) DEFAULT -1,
-//				  `FAVORRITED` char(1) DEFAULT 'N',
-//				  `TRUNCATED` char(1) DEFAULT 'N',
-//				  `IN_REPLY_TO_STATUS_ID` bigint(20) DEFAULT -1,  
-//				  `IN_REPLY_TO_USER_ID` bigint(20) DEFAULT -1, 
-//				  `IN_REPLY_TO_SCREEN_NAME` varchar(100) DEFAULT NULL,
-//				  `THUNMB_NAIL_PIC` varchar(200) DEFAULT '',
-//				  `B_MIDDLE_PIC` varchar(200) DEFAULT '',
-//				  `RETWEETED_STATUS_ID` bigint(20) DEFAULT -1, 
-//				  `GEO` char(100) DEFAULT '',
-//				  `LATITUDE` DOUBLE DEFAULT 0,
-//				  `LONGITUDE` DOUBLE DEFAULT 0,
-//				  `REPORTS_COUNT` int(11) DEFAULT 0,
-//				  `COMMENTS_COUNT` int(11) DEFAULT 0,
-//				  `ANNOTATIONS` varchar(200) DEFAULT NULL,
-//				  `M_LEVEL` int(11) DEFAULT 0,
-//				  `V_ID` bigint(20) DEFAULT -1,
-// 24
 		
 @Override
 public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -361,35 +331,7 @@ public PreparedStatement createPreparedStatement(Connection conn) throws SQLExce
 	}
 }
 
-
-
 class StatusRowMapper implements RowMapper<Status> {
-
-//	private long id;									 //1 db pk 
-//	private String stid;								 //2 status id
-//	private long userId;                            	 //3 作者 id
-//	private Date createdAt;                              //4 status创建时间
-//	private String mid;                                  //5 微博MID
-//	private long idstr;                                  //6 保留字段，请勿使用                     
-//	private String text;                                 //7 微博内容
-//	private long sourceId;                               //8 微博来源 id
-//	private boolean favorited;                           //9 是否已收藏
-//	private boolean truncated;                           //10 
-//	private long inReplyToStatusId;                      //11 回复ID
-//	private long inReplyToUserId;                        //12 回复人ID
-//	private String inReplyToScreenName;                  //13 回复人昵称
-//	private String thumbnailPic;                         //14 微博内容中的图片的缩略地址
-//	private String bmiddlePic;                           //15 中型图片
-//	private String originalPic;                          //16 原始图片
-//	private long retweetedStatusId;               		 //17 转发的博文，内容为status，如果不是转发，则没有此字段
-//	private String geo;                                  //18 地理信息，保存经纬度，没有时不返回此字段
-//	private double latitude = -1;                        //19 纬度
-//	private double longitude = -1;                       //20 经度
-//	private int repostsCount;                            //21 转发数
-//	private int commentsCount;                           //22 评论数
-//	private String annotations;                          //23 元数据，没有时不返回此字段
-//	private int mlevel;									 //24 
-//	private long visibleId;								 //25
 	
 	@Override
 	public Status mapRow(ResultSet rs, int rowIdx) throws SQLException {		
