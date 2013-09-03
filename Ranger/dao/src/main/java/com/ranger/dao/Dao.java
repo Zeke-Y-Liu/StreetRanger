@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import com.ranger.util.Bool;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -135,12 +136,12 @@ class UserPreparedStatementCreator implements PreparedStatementCreator {
 			if(u.getCreatedAt() != null) {
 				ps.setDate(16, new Date(u.getCreatedAt().getTime()));
 			}
-//			ps.setString(17, Bool.getBool(u.isFollowing()).getValue());
-//			ps.setString(18, Bool.getBool(u.isVerified()).getValue());
-//			ps.setInt(19, u.getVerifiedType());			
-//			ps.setString(20, Bool.getBool(u.isAllowAllActMsg()).getValue());
-//			ps.setString(21, Bool.getBool(u.isAllowAllComment()).getValue());
-//			ps.setString(22, Bool.getBool(u.isFollowMe()).getValue());
+			ps.setString(17, Bool.getBool(u.isFollowing()).getValue());
+			ps.setString(18, Bool.getBool(u.isVerified()).getValue());
+			ps.setInt(19, u.getVerifiedType());			
+			ps.setString(20, Bool.getBool(u.isAllowAllActMsg()).getValue());
+			ps.setString(21, Bool.getBool(u.isAllowAllComment()).getValue());
+			ps.setString(22, Bool.getBool(u.isFollowMe()).getValue());
 			ps.setString(23, u.getAvatarLarge());
 			ps.setInt(24, u.getOnlineStatus());
 			ps.setInt(25, u.getBiFollowersCount());
@@ -177,40 +178,39 @@ class UserRowMapper implements RowMapper<User> {
 		
 	@Override
 	public User mapRow(ResultSet rs, int rowIdx) throws SQLException {		
-//		User u = new User(
-//				rs.getLong(1), 
-//				rs.getString(2),
-//				rs.getString(3), 
-//				rs.getString(4), 
-//				rs.getInt(5),
-//				rs.getInt(6),
-//				rs.getString(7),
-//				rs.getString(8), 
-//				rs.getString(9), 
-//				rs.getString(10), 
-//				rs.getString(11),
-//				rs.getString(12), 
-//				rs.getInt(13), 
-//				rs.getInt(14),
-//				rs.getInt(15), 
-//				rs.getInt(16),
-//				rs.getDate(17), 
-//				Bool.getBoolean(rs.getString(18)),
-//				Bool.getBoolean(rs.getString(19)),
-//				rs.getInt(20),
-//				Bool.getBoolean(rs.getString(21)),
-//				Bool.getBoolean(rs.getString(22)),
-//				Bool.getBoolean(rs.getString(23)),
-//				rs.getString(24),
-//				rs.getInt(25),
-//				rs.getInt(26), 
-//				rs.getString(27),
-//				rs.getString(28),
-//				rs.getString(29),
-//				rs.getString(30), 
-//				rs.getString(31),
-//				null);
-		User u = new User();
+		User u = new User(
+				rs.getLong(1), 
+				rs.getString(2),
+				rs.getString(3), 
+				rs.getString(4), 
+				rs.getInt(5),
+				rs.getInt(6),
+				rs.getString(7),
+				rs.getString(8), 
+				rs.getString(9), 
+				rs.getString(10), 
+				rs.getString(11),
+				rs.getString(12), 
+				rs.getInt(13), 
+				rs.getInt(14),
+				rs.getInt(15), 
+				rs.getInt(16),
+				rs.getDate(17), 
+				Bool.getBoolean(rs.getString(18)),
+				Bool.getBoolean(rs.getString(19)),
+				rs.getInt(20),
+				Bool.getBoolean(rs.getString(21)),
+				Bool.getBoolean(rs.getString(22)),
+				Bool.getBoolean(rs.getString(23)),
+				rs.getString(24),
+				rs.getInt(25),
+				rs.getInt(26), 
+				rs.getString(27),
+				rs.getString(28),
+				rs.getString(29),
+				rs.getString(30), 
+				rs.getString(31),
+				null);
 		return u;
 	}
 }
@@ -308,8 +308,8 @@ public PreparedStatement createPreparedStatement(Connection conn) throws SQLExce
 			ps.setLong(5, s.getIdstr());		
 			ps.setString(6, s.getText());
 			ps.setLong(7, s.getSourceId());
-			// ps.setString(8, Bool.getBool(s.isFavorited()).getValue());
-			// ps.setString(9, Bool.getBool(s.isTruncated()).getValue());
+			ps.setString(8, Bool.getBool(s.isFavorited()).getValue());
+			ps.setString(9, Bool.getBool(s.isTruncated()).getValue());
 			ps.setLong(10, s.getInReplyToStatusId());
 			ps.setLong(11, s.getInReplyToUserId());
 			ps.setString(12, s.getInReplyToScreenName());
@@ -335,33 +335,32 @@ class StatusRowMapper implements RowMapper<Status> {
 	
 	@Override
 	public Status mapRow(ResultSet rs, int rowIdx) throws SQLException {		
-//		Status s = new Status(  
-//				rs.getLong(1), 
-//				rs.getString(2),
-//				rs.getLong(3), 
-//				rs.getDate(4), 
-//				rs.getString(5),
-//				rs.getLong(6),
-//				rs.getString(7),
-//				rs.getLong(8), 
-//				Bool.getBoolean(rs.getString(9)),
-//				Bool.getBoolean(rs.getString(10)),
-//				rs.getLong(11),
-//				rs.getLong(12), 
-//				rs.getString(13), 
-//				rs.getString(14),
-//				rs.getString(15), 
-//				rs.getString(16),
-//				rs.getLong(17), 
-//				rs.getString(18),
-//				rs.getDouble(19),
-//				rs.getDouble(20),
-//				rs.getInt(21),
-//				rs.getInt(22),
-//				rs.getString(23),
-//				rs.getInt(24),
-//				rs.getLong(25));
-		Status s = new Status();
+		Status s = new Status(  
+				rs.getLong(1), 
+				rs.getString(2),
+				rs.getLong(3), 
+				rs.getDate(4), 
+				rs.getString(5),
+				rs.getLong(6),
+				rs.getString(7),
+				rs.getLong(8), 
+				Bool.getBoolean(rs.getString(9)),
+				Bool.getBoolean(rs.getString(10)),
+				rs.getLong(11),
+				rs.getLong(12), 
+				rs.getString(13), 
+				rs.getString(14),
+				rs.getString(15), 
+				rs.getString(16),
+				rs.getLong(17), 
+				rs.getString(18),
+				rs.getDouble(19),
+				rs.getDouble(20),
+				rs.getInt(21),
+				rs.getInt(22),
+				rs.getString(23),
+				rs.getInt(24),
+				rs.getLong(25));
 		return s;
 	}
 }
