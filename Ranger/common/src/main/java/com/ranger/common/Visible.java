@@ -1,5 +1,8 @@
 package com.ranger.common;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 //CREATE TABLE `WB_VISIBLE` (
 //		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
 //		  `TYPE` int(11) DEFAULT -1,
@@ -39,5 +42,25 @@ public class Visible {
 	}
 	public void setListId(int listId) {
 		this.listId = listId;
+	}
+	
+	@Override
+	public int hashCode() {
+	     return new HashCodeBuilder(23, 31)
+	       .append(type)
+	       .append(listId)
+	       .toHashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) { return false; }
+		if (obj == this) { return true; }
+		if (obj.getClass() != getClass()) { return false; }
+		Visible v = (Visible) obj;
+		return new EqualsBuilder()
+			.append(type, v.getType())
+			.append(listId, v.getListId())
+			.isEquals();
 	}
 }

@@ -1,32 +1,26 @@
 package com.ranger.dao;
 
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import com.ranger.util.Bool;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-
-import com.ranger.common.Source;
 import com.ranger.common.Status;
 import com.ranger.common.User;
 import com.ranger.common.Tag;
-// import com.ranger.util.Bool;
+import com.ranger.util.Bool;
 import com.ranger.common.Visible;
 
 public class Dao {
@@ -41,10 +35,10 @@ public class Dao {
 	}
 
 	public List<User> loadUserByNameLike(String name) {
-		String sql = "SELECT ID, `UID`, `SCREEN_NAME`, `NAME`, `PROVINCE`, `CITY`, `LOCATION`, `DESCRIPTION`, `URL`, `PROFILE_IMAGE_URL`, " +
+		String sql = "SELECT `ID`, `UID`, `SCREEN_NAME`, `NAME`, `PROVINCE`, `CITY`, `LOCATION`, `DESCRIPTION`, `URL`, `PROFILE_IMAGE_URL`, " +
 				"`USER_DOMAIN`, `GENDER`, `FOLLOWERS_COUNT`, `FRIENDS_COUNT`, `STATUSES_COUNT`, `FAVOURITES_COUNT`, `CREATE_AT`, `FOLLOWING`, `VERIFIED`, " +
 				"`VERIFIED_TYPE`, `ALLOW_ALL_ACT_MSG`, `ALLOW_ALL_COMMENT`, `FOLLOW_ME`, `AVATAR_LARGE`, `ONLINE_STATUS`, `BI_FOLLOWERS_COUNT`, `REMARK`, " +
-				"`LANG`, `VERIFIED_REASON`, `WEIHAO`, `STATUS_ID`) WHERE NAME LIKE ?";
+				"`LANG`, `VERIFIED_REASON`, `WEIHAO`, `STATUS_ID` FROM WB_USER WHERE NAME LIKE ?";
 		return jdbcTemplate.query(sql, new String[]{ "%" + name + "%" }, new UserRowMapper());
 	}
 	/*
@@ -90,7 +84,12 @@ public class Dao {
 		visible.setId(holder.getKey().longValue());
 		return visible;
 	}
-		
+	
+	public List<Visible> loadAllVisible() {
+		String sql = "SELECT `ID`, `TYPE`, `LIST_ID`) FROM WB_VISIBLE";
+		return jdbcTemplate.query(sql, new VisibleRowMapper());
+	}
+	
 	public List<Status> batchInsertStatus(List<Status> statuses) {
 		// batch insert status
 		List<Long> ids = jdbcTemplate.execute(new StatusPreparedStatementCreator(statuses), new GeneratedKeysPreparedStatementCallback());			
@@ -155,19 +154,6 @@ class UserPreparedStatementCreator implements PreparedStatementCreator {
 		return ps;
 	}
 }
-
-//class UserPreparedStatementCallback implements PreparedStatementCallback<List<Long>> {
-//	@Override
-//	public List<Long> doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-//		List<Long> ids = new ArrayList<Long>();
-//		ps.executeBatch();
-//		ResultSet rs = ps.getGeneratedKeys();
-//		while (rs.next()) {
-//			ids.add(rs.getLong(1));
-//		}
-//		return ids;
-//	}
-//}
 
 class UserRowMapper implements RowMapper<User> {
 
