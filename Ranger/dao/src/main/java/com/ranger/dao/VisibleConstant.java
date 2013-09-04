@@ -1,8 +1,9 @@
-package com.ranger.common;
+package com.ranger.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ranger.common.Visible;
 import com.ranger.dao.Dao;
 import com.ranger.dao.SpringUtil;
 
