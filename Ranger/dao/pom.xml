@@ -47,5 +47,9 @@
 			<groupId>com.ranger</groupId>
 			<artifactId>ranger-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.ranger</groupId>
+			<artifactId>ranger-util</artifactId>
+		</dependency>
 	</dependencies>
 </project>
