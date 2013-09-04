@@ -6,14 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-//CREATE TABLE `WB_SOURCE` (
-//		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-//		  `URL` varchar(200) DEFAULT '',
-//		  `RELATIONSHIP` varchar(200) DEFAULT '',
-//		  `NAME` varchar(200) DEFAULT '',
-//		  PRIMARY KEY (`ID`)
-//)
-
 public class Source implements DataObject {
 
 	private Long id;

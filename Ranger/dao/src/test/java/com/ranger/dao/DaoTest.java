@@ -16,7 +16,7 @@ import com.ranger.common.Tag;
 import com.ranger.common.User;
 
 public class DaoTest {
-	// @Test
+	@Test
 	public void testBatchInsertUser() {
 		Dao dao = (Dao) SpringUtil.getBean("dao");
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) SpringUtil.getBean("jdbcTemplate");
@@ -105,23 +105,16 @@ public class DaoTest {
 	}
 	
 	
-	// @Test
+	@Test
 	public void testInsertSource() {
 		
 		Dao dao = (Dao) SpringUtil.getBean("dao");
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) SpringUtil.getBean("jdbcTemplate");
-		jdbcTemplate.execute("DELETE FROM `WB_TAG` WHERE `VALUE` LIKE 'TEST%'");
-		
-//		public Source(Long id, String url, String relationship, String name) {
-//			this.id = id;
-//			this.url = url;
-//			this.relationship = relationship;
-//			this.name = name;
-//		}
-		
-		Source source = new Source(null, null, "null", "TESTname");
+		jdbcTemplate.execute("DELETE FROM `WB_SOURCE` WHERE `NAME` LIKE 'TEST%'");
+			
+		Source source = new Source(null, "url", "relationship", "TESTname");
 		dao.insertSource(source);
-		// List<Source> sourceList = SourceConstant.getSourceId(source);
+		Assert.assertNotNull(SourceConstant.getSourceId(source));
 	}
 	
 }
