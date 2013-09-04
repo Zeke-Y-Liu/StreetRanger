@@ -1,6 +1,7 @@
 package com.ranger.common;
 
 import java.util.Date;
+import java.util.List;
 
 //CREATE TABLE `WB_STATUS` (
 //		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,  
@@ -37,63 +38,63 @@ import java.util.Date;
 //		  CONSTRAINT `V_ID` FOREIGN KEY (`V_ID`) REFERENCES `wb_visible` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 //)
 
-public class Status {
-	private long id;									 //1 db pk 
+public class Status implements DataObject {
+	private Long id;									 //1 db pk 
 	private String stid;								 //2 status id
-	private long userId;                            	 //3 作者 id
+	private Long userId;                            	 //3 作者 id
 	private Date createdAt;                              //4 status创建时间
 	private String mid;                                  //5 微博MID
-	private long idstr;                                  //6 保留字段，请勿使用                     
+	private Long idstr;                                  //6 保留字段，请勿使用                     
 	private String text;                                 //7 微博内容
-	private long sourceId;                               //8 微博来源 id
+	private Long sourceId;                               //8 微博来源 id
 	private boolean favorited;                           //9 是否已收藏
 	private boolean truncated;                           //10 
-	private long inReplyToStatusId;                      //11 回复ID
-	private long inReplyToUserId;                        //12 回复人ID
+	private Long inReplyToStatusId;                      //11 回复ID
+	private Long inReplyToUserId;                        //12 回复人ID
 	private String inReplyToScreenName;                  //13 回复人昵称
 	private String thumbnailPic;                         //14 微博内容中的图片的缩略地址
 	private String bmiddlePic;                           //15 中型图片
 	private String originalPic;                          //16 原始图片
-	private long retweetedStatusId;               		 //17 转发的博文，内容为status，如果不是转发，则没有此字段
+	private Long retweetedStatusId;               		 //17 转发的博文，内容为status，如果不是转发，则没有此字段
 	private String geo;                                  //18 地理信息，保存经纬度，没有时不返回此字段
-	private double latitude = -1;                        //19 纬度
-	private double longitude = -1;                       //20 经度
-	private int repostsCount;                            //21 转发数
-	private int commentsCount;                           //22 评论数
+	private Double latitude = -1d;                        //19 纬度
+	private Double longitude = -1d;                       //20 经度
+	private Integer repostsCount;                            //21 转发数
+	private Integer commentsCount;                           //22 评论数
 	private String annotations;                          //23 元数据，没有时不返回此字段
-	private int mlevel;									 //24 
-	private long visibleId;								 //25
+	private Integer mlevel;									 //24 
+	private Long visibleId;								 //25
 	
 	
 	public Status() {
 		
 	}
 	
-	public Status( long id,
+	public Status( Long id,
 				   String stid,
-				   long userId,
+				   Long userId,
 				   Date createdAt,
 				   String mid,
-				   long idstr,
+				   Long idstr,
 				   String text,
-				   long sourceId,
+				   Long sourceId,
 				   boolean favorited,
 				   boolean truncated,
-				   long inReplyToStatusId,
-				   long inReplyToUserId,
+				   Long inReplyToStatusId,
+				   Long inReplyToUserId,
 				   String inReplyToScreenName,
 				   String thumbnailPic,
 				   String bmiddlePic,
 				   String originalPic,
-				   long retweetedStatusId,
+				   Long retweetedStatusId,
 				   String geo,
 				   double latitude,
 				   double longitude,
-				   int repostsCount,
-				   int commentsCount,
+				   Integer repostsCount,
+				   Integer commentsCount,
 				   String annotations,
-				   int mlevel,
-				   long visibleId) {
+				   Integer mlevel,
+				   Long visibleId) {
 		this.id = id;
 		this.stid = stid;
 		this.userId = userId;
@@ -120,155 +121,211 @@ public class Status {
 		this.mlevel = mlevel;
 		this.visibleId = visibleId;
 	}
-	
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getStid() {
 		return stid;
 	}
+
 	public void setStid(String stid) {
 		this.stid = stid;
 	}
-	public long getUserId() {
+
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
+
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+
 	public String getMid() {
 		return mid;
 	}
+
 	public void setMid(String mid) {
 		this.mid = mid;
 	}
-	public long getIdstr() {
+
+	public Long getIdstr() {
 		return idstr;
 	}
-	public void setIdstr(long idstr) {
+
+	public void setIdstr(Long idstr) {
 		this.idstr = idstr;
 	}
+
 	public String getText() {
 		return text;
 	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	public long getSourceId() {
+
+	public Long getSourceId() {
 		return sourceId;
 	}
-	public void setSourceId(long sourceId) {
+
+	public void setSourceId(Long sourceId) {
 		this.sourceId = sourceId;
 	}
+
 	public boolean isFavorited() {
 		return favorited;
 	}
+
 	public void setFavorited(boolean favorited) {
 		this.favorited = favorited;
 	}
+
 	public boolean isTruncated() {
 		return truncated;
 	}
+
 	public void setTruncated(boolean truncated) {
 		this.truncated = truncated;
 	}
-	public long getInReplyToStatusId() {
+
+	public Long getInReplyToStatusId() {
 		return inReplyToStatusId;
 	}
-	public void setInReplyToStatusId(long inReplyToStatusId) {
+
+	public void setInReplyToStatusId(Long inReplyToStatusId) {
 		this.inReplyToStatusId = inReplyToStatusId;
 	}
-	public long getInReplyToUserId() {
+
+	public Long getInReplyToUserId() {
 		return inReplyToUserId;
 	}
-	public void setInReplyToUserId(long inReplyToUserId) {
+
+	public void setInReplyToUserId(Long inReplyToUserId) {
 		this.inReplyToUserId = inReplyToUserId;
 	}
+
 	public String getInReplyToScreenName() {
 		return inReplyToScreenName;
 	}
+
 	public void setInReplyToScreenName(String inReplyToScreenName) {
 		this.inReplyToScreenName = inReplyToScreenName;
 	}
+
 	public String getThumbnailPic() {
 		return thumbnailPic;
 	}
+
 	public void setThumbnailPic(String thumbnailPic) {
 		this.thumbnailPic = thumbnailPic;
 	}
+
 	public String getBmiddlePic() {
 		return bmiddlePic;
 	}
+
 	public void setBmiddlePic(String bmiddlePic) {
 		this.bmiddlePic = bmiddlePic;
 	}
+
 	public String getOriginalPic() {
 		return originalPic;
 	}
+
 	public void setOriginalPic(String originalPic) {
 		this.originalPic = originalPic;
 	}
-	public long getRetweetedStatusId() {
+
+	public Long getRetweetedStatusId() {
 		return retweetedStatusId;
 	}
-	public void setRetweetedStatusId(long retweetedStatusId) {
+
+	public void setRetweetedStatusId(Long retweetedStatusId) {
 		this.retweetedStatusId = retweetedStatusId;
 	}
+
 	public String getGeo() {
 		return geo;
 	}
+
 	public void setGeo(String geo) {
 		this.geo = geo;
 	}
-	public double getLatitude() {
+
+	public Double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(double latitude) {
+
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	public double getLongitude() {
+
+	public Double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(double longitude) {
+
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public int getRepostsCount() {
+
+	public Integer getRepostsCount() {
 		return repostsCount;
 	}
-	public void setRepostsCount(int repostsCount) {
+
+	public void setRepostsCount(Integer repostsCount) {
 		this.repostsCount = repostsCount;
 	}
-	public int getCommentsCount() {
+
+	public Integer getCommentsCount() {
 		return commentsCount;
 	}
-	public void setCommentsCount(int commentsCount) {
+
+	public void setCommentsCount(Integer commentsCount) {
 		this.commentsCount = commentsCount;
 	}
+
 	public String getAnnotations() {
 		return annotations;
 	}
+
 	public void setAnnotations(String annotations) {
 		this.annotations = annotations;
 	}
-	public int getMlevel() {
+
+	public Integer getMlevel() {
 		return mlevel;
 	}
-	public void setMlevel(int mlevel) {
+
+	public void setMlevel(Integer mlevel) {
 		this.mlevel = mlevel;
 	}
-	public long getVisibleId() {
+
+	public Long getVisibleId() {
 		return visibleId;
 	}
-	public void setVisibleId(long visibleId) {
+
+	public void setVisibleId(Long visibleId) {
 		this.visibleId = visibleId;
 	}
+
+	@Override
+	public List<DataField> getDataFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+		
 }

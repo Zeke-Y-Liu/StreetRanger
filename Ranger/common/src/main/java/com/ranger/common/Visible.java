@@ -1,5 +1,7 @@
 package com.ranger.common;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -14,36 +16,53 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Constatants class
  */
 
-public class Visible {
-	private long id;
-	private int type;
-	private int listId;
+public class Visible implements DataObject {
+	private Long id;
+	private Integer type;
+	private Integer listId;
 	
-	public Visible(long id, int type, int listId) {
+	public Visible(Long id, Integer type, Integer listId) {
 		this.id = id;
 		this.type = type;
 		this.listId = listId;
 	}
-	
-	public long getId() {
+		
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+
+
+
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getType() {
+
+
+
+	public Integer getType() {
 		return type;
 	}
-	public void setType(int type) {
+
+
+
+	public void setType(Integer type) {
 		this.type = type;
 	}
-	public int getListId() {
+
+
+
+	public Integer getListId() {
 		return listId;
 	}
-	public void setListId(int listId) {
+
+
+
+	public void setListId(Integer listId) {
 		this.listId = listId;
 	}
-	
+
+
+
 	@Override
 	public int hashCode() {
 	     return new HashCodeBuilder(23, 31)
@@ -62,5 +81,11 @@ public class Visible {
 			.append(type, v.getType())
 			.append(listId, v.getListId())
 			.isEquals();
+	}
+
+	@Override
+	public List<DataField> getDataFields() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

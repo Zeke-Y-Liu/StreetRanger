@@ -1,21 +1,13 @@
 package com.ranger.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-//CREATE TABLE `WB_TAG` (
-//		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-//		  `TID` char(20) NOT NULL,
-//		  `VALUE` varchar(200) NOT NULL,
-//		  `WEIGHT` varchar(200) NOT NULL,
-//		  `USER_ID` bigint(20) DEFAULT NULL, -- user db primary key id, not the unique user uid
-//		  PRIMARY KEY (`ID`),
-//		  UNIQUE KEY `TID_UNIQUE` (`TID`),
-//		  CONSTRAINT `USER_ID_TAG` FOREIGN KEY (`USER_ID`) REFERENCES `wb_user` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-//)
-
-public class Tag {
-
+public class Tag implements DataObject {
+	
 	public Tag(Long id, String tid, String value, String weight, Long userId) {
 		this.id = id;
 		this.tid = tid;
@@ -88,4 +80,40 @@ public class Tag {
 			.isEquals();
 	}
 	
+	@Override
+	public List<DataField> getDataFields() {
+		List<DataField> dataFieldList = new ArrayList<DataField>(); 
+		
+		DataField dataField = new DataField();
+		dataField.setIndex(1);
+		dataField.setType(DataFieldType.LONG);
+		dataField.setValue(id);
+		dataFieldList.add(dataField);
+		
+		dataField = new DataField();
+		dataField.setIndex(2);
+		dataField.setType(DataFieldType.STRING);
+		dataField.setValue(tid);
+		dataFieldList.add(dataField);
+		
+		dataField = new DataField();
+		dataField.setIndex(3);
+		dataField.setType(DataFieldType.STRING);
+		dataField.setValue(value);
+		dataFieldList.add(dataField);
+		
+		dataField = new DataField();
+		dataField.setIndex(4);
+		dataField.setType(DataFieldType.STRING);
+		dataField.setValue(weight);
+		dataFieldList.add(dataField);
+		
+		dataField = new DataField();
+		dataField.setIndex(5);
+		dataField.setType(DataFieldType.LONG);
+		dataField.setValue(userId);
+		dataFieldList.add(dataField);
+		
+		return dataFieldList;
+	}	
 }

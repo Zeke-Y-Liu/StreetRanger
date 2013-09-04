@@ -6,6 +6,6 @@ import org.testng.annotations.Test;
 public class SpringUtilTest {
 	@Test
 	public void testGetBean() {
-		Assert.assertNotNull(SpringUtil.getBean("testBean"));
+		Assert.assertNotNull(SpringUtil.getBean("dao"));
 	}
 }
