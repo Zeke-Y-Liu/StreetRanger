@@ -1,5 +1,6 @@
 package com.ranger.common;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,31 +40,31 @@ import java.util.List;
 //)
 
 public class Status implements DataObject {
-	private Long id;									 //1 db pk 
-	private String stid;								 //2 status id
-	private Long userId;                            	 //3 作者 id
-	private Date createdAt;                              //4 status创建时间
-	private String mid;                                  //5 微博MID
-	private Long idstr;                                  //6 保留字段，请勿使用                     
-	private String text;                                 //7 微博内容
-	private Long sourceId;                               //8 微博来源 id
-	private boolean favorited;                           //9 是否已收藏
-	private boolean truncated;                           //10 
-	private Long inReplyToStatusId;                      //11 回复ID
-	private Long inReplyToUserId;                        //12 回复人ID
-	private String inReplyToScreenName;                  //13 回复人昵称
-	private String thumbnailPic;                         //14 微博内容中的图片的缩略地址
-	private String bmiddlePic;                           //15 中型图片
-	private String originalPic;                          //16 原始图片
-	private Long retweetedStatusId;               		 //17 转发的博文，内容为status，如果不是转发，则没有此字段
-	private String geo;                                  //18 地理信息，保存经纬度，没有时不返回此字段
-	private Double latitude = -1d;                        //19 纬度
-	private Double longitude = -1d;                       //20 经度
-	private Integer repostsCount;                            //21 转发数
-	private Integer commentsCount;                           //22 评论数
-	private String annotations;                          //23 元数据，没有时不返回此字段
-	private Integer mlevel;									 //24 
-	private Long visibleId;								 //25
+	private Long id;					//1 db pk 
+	private String stid;				//2 status id
+	private Long userId;                //3 作者 id
+	private Date createdAt;             //4 status创建时间
+	private String mid;                 //5 微博MID
+	private Long idstr;                 //6 保留字段，请勿使用                     
+	private String text;                //7 微博内容
+	private Long sourceId;              //8 微博来源 id
+	private boolean favorited;          //9 是否已收藏
+	private boolean truncated;          //10 
+	private Long inReplyToStatusId;     //11 回复ID
+	private Long inReplyToUserId;       //12 回复人ID
+	private String inReplyToScreenName; //13 回复人昵称
+	private String thumbnailPic;        //14 微博内容中的图片的缩略地址
+	private String bmiddlePic;          //15 中型图片
+	private String originalPic;         //16 原始图片
+	private Long retweetedStatusId;     //17 转发的博文，内容为status，如果不是转发，则没有此字段
+	private String geo;                 //18 地理信息，保存经纬度，没有时不返回此字段
+	private Double latitude = -1d;      //19 纬度
+	private Double longitude = -1d;     //20 经度
+	private Integer repostsCount;       //21 转发数
+	private Integer commentsCount;      //22 评论数
+	private String annotations;         //23 元数据，没有时不返回此字段
+	private Integer mlevel;				//24 
+	private Long visibleId;				//25
 	
 	
 	public Status() {
@@ -324,8 +325,59 @@ public class Status implements DataObject {
 
 	@Override
 	public List<DataField> getDataFields() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DataField> dataFieldList = new ArrayList<DataField>(); 
+		
+		DataField dataField = new DataField(DataFieldType.LONG, 1, id);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 2, stid);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 3, userId);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.DATE, 4, createdAt);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 5, mid);
+		dataField = new DataField(DataFieldType.LONG, 6, idstr);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 7, text);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 8, sourceId);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.BOOLEAN, 9, favorited);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.BOOLEAN, 10, truncated);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 11, inReplyToStatusId);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 12, inReplyToUserId);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 13, inReplyToScreenName);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 14, thumbnailPic);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 15, bmiddlePic);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 16, originalPic);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 17, retweetedStatusId);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 18, geo);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.DOUBLE, 19, latitude);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.DOUBLE, 20, longitude);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.INTEGER, 21, repostsCount);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.INTEGER, 22, commentsCount);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.STRING, 23, annotations);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.INTEGER, 24, mlevel);
+		dataFieldList.add(dataField);
+		dataField = new DataField(DataFieldType.LONG, 25, visibleId);
+		dataFieldList.add(dataField);
+		
+		return dataFieldList;
 	}
 		
 }

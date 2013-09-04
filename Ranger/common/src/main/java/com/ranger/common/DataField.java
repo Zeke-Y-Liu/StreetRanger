@@ -4,6 +4,17 @@ public class DataField {
 	private DataFieldType type;
 	private int index;
 	private Object value;
+	
+	public DataField(DataFieldType type, int index, Object value) {
+		this.type = type;
+		this.index = index;
+		this.value = value;
+	}
+	
+	public DataField() {
+		
+	}
+	
 	public DataFieldType getType() {
 		return type;
 	}

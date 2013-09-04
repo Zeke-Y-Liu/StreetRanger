@@ -1,5 +1,6 @@
 package com.ranger.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -76,8 +77,17 @@ public class Source implements DataObject {
 
 	@Override
 	public List<DataField> getDataFields() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DataField> dataFieldList = new ArrayList<DataField>(); 		
+		DataField dataField = new DataField(DataFieldType.LONG, 1, id);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 2, url);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 3, relationship);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 4, name);
+		dataFieldList.add(dataField);
+		
+		return dataFieldList;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.ranger.common;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -425,8 +426,70 @@ public class User implements DataObject {
 
 	@Override
 	public List<DataField> getDataFields() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DataField> dataFieldList = new ArrayList<DataField>(); 		
+		DataField dataField = new DataField(DataFieldType.LONG, 1, id);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 2, uid);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 3, screenName);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 4, name);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 5, province);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 6, city);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 7, location);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 8, description);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 9, url);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 10, profileImageUrl);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 11, userDomain);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 12, gender);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 13, followersCount);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 14, friendsCount);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 15, statusesCount);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 16, favouritesCount);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.DATE, 17, createdAt);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.BOOLEAN, 18, following);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.BOOLEAN, 19, verified);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 20, verifiedType);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.BOOLEAN, 21, allowAllActMsg);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.BOOLEAN, 22, allowAllComment);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.BOOLEAN, 23, followMe);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 24, avatarLarge);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 25, onlineStatus);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.INTEGER, 26, biFollowersCount);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 27, remark);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 28, lang);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 29, verifiedReason);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 30, weihao);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 31, statusId);
+		dataFieldList.add(dataField);
+		return dataFieldList;
 	}
 
 	

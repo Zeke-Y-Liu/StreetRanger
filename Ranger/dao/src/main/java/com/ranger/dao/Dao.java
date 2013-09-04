@@ -152,6 +152,7 @@ class WBPreparedStatementCreator implements PreparedStatementCreator {
 				case STRING: setString(dataField, ps); break;
 				case INTEGER: setInteget(dataField, ps); break;
 				case DATE: setDate(dataField, ps); break;
+				case BOOLEAN: setBoolean(dataField, ps); break;
 				}
 			}
 			ps.addBatch();
@@ -188,7 +189,11 @@ class WBPreparedStatementCreator implements PreparedStatementCreator {
 		} else {
 			ps.setNull(dataField.getIndex(), Types.DATE);
 		}
-	}	
+	}
+	
+	private void setBoolean(DataField dataField, PreparedStatement ps) throws SQLException {
+		ps.setBoolean(dataField.getIndex(), (Boolean)dataField.getValue());
+	}
 }
 
 class UserRowMapper implements RowMapper<User> {

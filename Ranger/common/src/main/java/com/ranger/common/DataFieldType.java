@@ -2,6 +2,6 @@ package com.ranger.common;
 
 
 public enum DataFieldType {
-	LONG, STRING, INTEGER, DATE, DOUBLE;
+	LONG, STRING, INTEGER, DATE, DOUBLE, BOOLEAN;
 
 }

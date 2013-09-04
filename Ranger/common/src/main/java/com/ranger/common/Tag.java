@@ -83,37 +83,16 @@ public class Tag implements DataObject {
 	@Override
 	public List<DataField> getDataFields() {
 		List<DataField> dataFieldList = new ArrayList<DataField>(); 
-		
-		DataField dataField = new DataField();
-		dataField.setIndex(1);
-		dataField.setType(DataFieldType.LONG);
-		dataField.setValue(id);
-		dataFieldList.add(dataField);
-		
-		dataField = new DataField();
-		dataField.setIndex(2);
-		dataField.setType(DataFieldType.STRING);
-		dataField.setValue(tid);
-		dataFieldList.add(dataField);
-		
-		dataField = new DataField();
-		dataField.setIndex(3);
-		dataField.setType(DataFieldType.STRING);
-		dataField.setValue(value);
-		dataFieldList.add(dataField);
-		
-		dataField = new DataField();
-		dataField.setIndex(4);
-		dataField.setType(DataFieldType.STRING);
-		dataField.setValue(weight);
-		dataFieldList.add(dataField);
-		
-		dataField = new DataField();
-		dataField.setIndex(5);
-		dataField.setType(DataFieldType.LONG);
-		dataField.setValue(userId);
-		dataFieldList.add(dataField);
-		
+		DataField dataField = new DataField(DataFieldType.LONG, 1, id);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 2, tid);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 3, value);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.STRING, 4, weight);
+		dataFieldList.add(dataField);		
+		dataField = new DataField(DataFieldType.LONG, 5, userId);
+		dataFieldList.add(dataField);		
 		return dataFieldList;
 	}	
 }
