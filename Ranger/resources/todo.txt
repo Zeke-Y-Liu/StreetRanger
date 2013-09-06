@@ -107,3 +107,9 @@ public PreparedStatement createPreparedStatement(Connection conn) throws SQLExce
 有一个工具类，run一下，可以取到code 和 token. code和token 可以用在其他地方。 code 是每次都会变化的，只能执行一次。 token可以一直用。 
 熊出，没注意  14:33:42
 可以参考一下这个：http://wenku.baidu.com/view/6039960c90c69ec3d5bb7588.html
+
+
+927  INFO  [2013-09-06 14:30:25]  User [id=3752152991, screenName=StreetRanger, name=StreetRanger, province=11, city=1, location=北京 东城区, description=, url=, profileImageUrl=http://tp4.sinaimg.cn/3752152991/50/0/0, userDomain=, gender=f, followersCount=11, friendsCount=46, statusesCount=0, favouritesCount=0, createdAt=Sat Aug 31 22:57:42 CST 2013, following=false, verified=false, verifiedType=-1, allowAllActMsg=false, allowAllComment=true, followMe=false, avatarLarge=http://tp4.sinaimg.cn/3752152991/180/0/0, onlineStatus=0, status=null, biFollowersCount=0, remark=null, lang=zh-cn, verifiedReason=, weihao=, statusId=]
+
+这是返回的用户信息
+StreetRanger 是我们自己建的
