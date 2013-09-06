@@ -1,17 +1,22 @@
 package com.ranger.collector;
 
 public class CollectorRunnable implements Runnable {
-	// an external command to intefer this thread, for example, resume the
+	public static short COMMAND_STOP = 0;
+	// an external command to interfere this thread, for example, resume the
 	// thread by notifying
 	// suspend this thread by stop.
-	private short command;
+	private short cmd;
 	private CollectorScheduler scheduler;
 
+	public synchronized void setCommand(short cmd) {
+		this.cmd = cmd;
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		// cmd is not stop
-		while (command != 0) {
+		while (cmd != 0) {
 			int result = scheduler.schedule();
 			if (result == 0) {
 				synchronized (scheduler) {

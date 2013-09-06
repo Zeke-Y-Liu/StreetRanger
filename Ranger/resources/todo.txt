@@ -99,3 +99,11 @@ public PreparedStatement createPreparedStatement(Connection conn) throws SQLExce
 		return ps;
 	}
 }
+
+
+好了
+我提交了
+熊出，没注意  14:32:23
+有一个工具类，run一下，可以取到code 和 token. code和token 可以用在其他地方。 code 是每次都会变化的，只能执行一次。 token可以一直用。 
+熊出，没注意  14:33:42
+可以参考一下这个：http://wenku.baidu.com/view/6039960c90c69ec3d5bb7588.html
