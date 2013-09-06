@@ -11,11 +11,10 @@ public class OAuthTest {
 	public void testAuth() {
 		Oauth oauth = new Oauth();
 		String state = new Long(System.currentTimeMillis()).toString();
-		String code = null;
+		String code = "";//get code from <code>OAuth4Code.java</code>
 		try {
-			code = oauth.authorize("code", state);
+			code = oauth.authorize(code, state);
 		} catch (WeiboException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
