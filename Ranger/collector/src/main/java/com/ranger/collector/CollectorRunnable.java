@@ -1,6 +1,10 @@
 package com.ranger.collector;
 
+import org.apache.log4j.Logger;
+
 public class CollectorRunnable implements Runnable {
+	static Logger log = Logger.getLogger(CollectorRunnable.class.getName());
+	
 	public static short COMMAND_STOP = 0;
 	// an external command to interfere this thread, for example, resume the
 	// thread by notifying
@@ -14,17 +18,15 @@ public class CollectorRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		// cmd is not stop
 		while (cmd != 0) {
-			int result = scheduler.schedule();
+			long result = scheduler.schedule();
 			if (result == 0) {
 				synchronized (scheduler) {
 					try {
 						scheduler.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.warn(e);
 					}
 				}
 			} else if (result > 0) {
@@ -32,8 +34,7 @@ public class CollectorRunnable implements Runnable {
 					try {
 						scheduler.wait(result);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.warn(e);
 					}
 				}
 			}  // else go on

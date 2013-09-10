@@ -32,7 +32,7 @@ CREATE TABLE `WB_USER` (
   `ONLINE_STATUS` int(11) DEFAULT '-1',
   `BI_FOLLOWERS_COUNT` int(11) DEFAULT '0',
   `REMARK` varchar(500) DEFAULT '',
-  `LANG` char(2) DEFAULT 'CN',
+  `LANG` char(10) DEFAULT 'ZH-CN',
   `VERIFIED_REASON` varchar(100) DEFAULT '',
   `WEIHAO` varchar(50) DEFAULT '',
   `STATUS_ID` char(10) DEFAULT '',
