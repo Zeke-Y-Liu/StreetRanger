@@ -11,6 +11,4 @@ public class Version {
 	public void setVersion(String version) {
 		this._version = version;
 	}
-	
-	
 }
