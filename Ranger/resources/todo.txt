@@ -113,3 +113,23 @@ public PreparedStatement createPreparedStatement(Connection conn) throws SQLExce
 
 这是返回的用户信息
 StreetRanger 是我们自己建的
+
+https://api.weibo.com/oauth2/authorize?client_id=1668010415&redirect_uri=http://www.weibo.com&response_type=code&state=state&scope=scope
+Hit enter when it's done.[Enter]:5a0da338b829f3a301ad970572b95b1c
+0    INFO  [2013-09-10 20:14:26]  code: 5a0da338b829f3a301ad970572b95b1c
+0    DEBUG [2013-09-10 20:14:26]  Request:
+0    DEBUG [2013-09-10 20:14:26]  POSThttps://api.weibo.com/oauth2/access_token
+703  DEBUG [2013-09-10 20:14:27]  Response:
+703  DEBUG [2013-09-10 20:14:27]  https StatusCode:200
+703  DEBUG [2013-09-10 20:14:27]  Server:nginx/1.2.0
+703  DEBUG [2013-09-10 20:14:27]  Date:Tue, 10 Sep 2013 12:14:24 GMT
+703  DEBUG [2013-09-10 20:14:27]  Content-Type:text/plain;charset=UTF-8
+703  DEBUG [2013-09-10 20:14:27]  Content-Length:111
+703  DEBUG [2013-09-10 20:14:27]  Connection:keep-alive
+703  DEBUG [2013-09-10 20:14:27]  Pragma:No-cache
+703  DEBUG [2013-09-10 20:14:27]  Cache-Control:no-cache
+703  DEBUG [2013-09-10 20:14:27]  Expires:Thu, 01 Jan 1970 00:00:00 GMT
+703  DEBUG [2013-09-10 20:14:27]  Api-Server-IP:10.75.25.114
+703  DEBUG [2013-09-10 20:14:27]  {"access_token":"2.00bwB8RBnhnsoB33a16be5bf33viGB","remind_in":"110735","expires_in":110735,"uid":"1173772877"}
+
+AccessToken [accessToken=2.00bwB8RBnhnsoB33a16be5bf33viGB, expireIn=110735, refreshToken=,uid=1173772877]
