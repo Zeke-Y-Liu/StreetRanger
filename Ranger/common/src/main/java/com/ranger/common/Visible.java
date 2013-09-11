@@ -3,8 +3,8 @@ package com.ranger.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 //CREATE TABLE `WB_VISIBLE` (
 //		  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
