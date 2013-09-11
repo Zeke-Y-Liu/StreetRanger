@@ -14,5 +14,21 @@
 			<groupId>com.ranger</groupId>
 			<artifactId>ranger-common</artifactId>
 		</dependency>
+		<!-- this dependency will introduce more dependencies
+			use java.util.Properties to replace
+			-->
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+		</dependency>
+		 
+		<dependency>
+			<groupId>com.ranger</groupId>
+			<artifactId>weibo4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ranger</groupId>
+			<artifactId>ranger-util</artifactId>
+		</dependency>
 	</dependencies>
 </project>
