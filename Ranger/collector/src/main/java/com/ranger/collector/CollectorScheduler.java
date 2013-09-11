@@ -62,6 +62,9 @@ public class CollectorScheduler {
 			}
 		}
 		collector.collect();
+		if(collector.isUserPoolFull()) {
+			collector.flush2DB();
+		}
 		return result;
 	}
 }

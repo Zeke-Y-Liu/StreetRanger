@@ -2,6 +2,7 @@ package com.ranger.collector;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,6 +16,8 @@ import weibo4j.model.WeiboException;
 import com.ranger.common.DataPool;
 import com.ranger.common.SetDataPool;
 import com.ranger.common.User;
+import com.ranger.dao.Dao;
+import com.ranger.dao.SpringUtil;
 import com.ranger.util.AccessTokenUtil;
 
 /*
@@ -30,78 +33,106 @@ public class Collector {
 	
 	private Friendships fm = new Friendships();
 	private Tags tm = new Tags();
+	private Dao dao;
 	
-	public Collector() {
+	public Collector(Dao dao) {
 		fm.client.setToken(AccessTokenUtil.getAccessToken());
 		tm.client.setToken(AccessTokenUtil.getAccessToken());
+		this.dao = dao;
 	}
 	// uid set pool, hold a bunch of uid to be fetch from weibo site.
 	private DataPool<String> avaiableUserIdSetPool = new SetDataPool<String>(0);
 	
 	// hold a set of user to be flushed to database
 	private DataPool<User> userPool = new SetDataPool<User>(1000);
-		
-	//1. get user uid from user uid pool
-	//2. get use's friends' info by uid, including tags and put all the friend users into user pool
-	//3. put the friends's uid into uid pool for next round
+	
+	// a list of friends of a uid
+	private List<User> friends = new ArrayList<User>();
+	// for scheduler to make decision easily, each call on this method, only fire one weibo request
+	// either get user's friends by uid or get a user's tags by uid.
+	// 1. pick up one user from friend list, get tags for that user and put into user pool
+	// 2. if the friend list is empty, pick up a uid from uid pool and get friend list for that user
 	public void collect() {
-		String uid = avaiableUserIdSetPool.takeOne();
-		if(uid == null) {
-			return;
-		}
-		try {
-			UserWapper users = fm.getFollowersById(uid);
-			
-			for(weibo4j.model.User u : users.getUsers()){
-				User wbUser = new User(null, // database PK
-									u.getId(),
-									u.getScreenName(),
-									u.getName(),
-									u.getProvince(),
-									u.getCity(),
-									u.getLocation(),
-									u.getDescription(),
-									u.getUrl(),
-									u.getProfileImageUrl(),
-									u.getUserDomain(),
-									u.getGender(),
-									u.getFollowersCount(),
-									u.getFriendsCount(),
-									u.getStatusesCount(),
-									u.getFavouritesCount(),
-									u.getCreatedAt(),
-									u.isFollowing(),
-									u.isVerified(),
-									u.getVerifiedType(),
-									u.isallowAllActMsg(),
-									u.isallowAllComment(),
-									u.isfollowMe(),
-									u.getAvatarLarge(),
-									u.getOnlineStatus(),
-									u.getBiFollowersCount(),
-									u.getRemark(),
-									u.getLang(),
-									u.getVerifiedReason(),
-									u.getWeihao(),
-									u.getStatusId(),
-									null // tags
-									);
-				// fetch current user's tags
-				List<Tag> tags = tm.getTags(uid);
-				List<com.ranger.common.Tag> wbTags = new ArrayList<com.ranger.common.Tag>();
-				for(Tag t : tags) {
-					com.ranger.common.Tag wbTag = new com.ranger.common.Tag(null, t.getId(), t.getValue(), t.getWeight(), null);
-					wbTags.add(wbTag);
-				}
-				wbUser.setTags(wbTags);
-				userPool.add(wbUser);
+		if(!friends.isEmpty()) {
+			com.ranger.common.User user =  friends.remove(0);
+			List<Tag> wbTags = null;
+			try {
+				wbTags = tm.getTags(user.getUid());
+			} catch (WeiboException e) {
+				log.error(e);
+				// in case exception, ignore, proceed with next one
+				return;
 			}
-		} catch (WeiboException e) {
-			e.printStackTrace();
-			log.info(e);
+			List<com.ranger.common.Tag> tags = new ArrayList<com.ranger.common.Tag>();
+			for(Tag t : wbTags) {
+				com.ranger.common.Tag tag = new com.ranger.common.Tag(null, t.getId(), t.getValue(), t.getWeight(), null);
+				tags.add(tag);
+			}
+			user.setTags(tags);
+			userPool.add(user);
+		} else {
+			String uid = avaiableUserIdSetPool.takeOne();
+			if(uid == null) {
+				return;
+			}
+			UserWapper wbUsers = null;
+			try {
+				wbUsers = fm.getFollowersById(uid);
+			} catch (WeiboException e) {
+				log.error(e);
+				// in case exception, ignore, proceed with next one
+				return;
+			}
+			for(weibo4j.model.User u : wbUsers.getUsers()){
+				User user = new User(null, // database PK
+										u.getId(),
+										u.getScreenName(),
+										u.getName(),
+										u.getProvince(),
+										u.getCity(),
+										u.getLocation(),
+										u.getDescription(),
+										u.getUrl(),
+										u.getProfileImageUrl(),
+										u.getUserDomain(),
+										u.getGender(),
+										u.getFollowersCount(),
+										u.getFriendsCount(),
+										u.getStatusesCount(),
+										u.getFavouritesCount(),
+										u.getCreatedAt(),
+										u.isFollowing(),
+										u.isVerified(),
+										u.getVerifiedType(),
+										u.isallowAllActMsg(),
+										u.isallowAllComment(),
+										u.isfollowMe(),
+										u.getAvatarLarge(),
+										u.getOnlineStatus(),
+										u.getBiFollowersCount(),
+										u.getRemark(),
+										u.getLang(),
+										u.getVerifiedReason(),
+										u.getWeihao(),
+										u.getStatusId(),
+										null // tags
+										);
+				friends.add(user);
+			}
 		}
 	}
 	
+	public int flush2DB() {
+		int count = userPool.size();
+		dao.batchInsertUser(userPool.dumpOut());
+		return count;
+	}
+	
+	public void initUidPool(Collection<String> uids) {
+		for(String uid : uids) {
+			avaiableUserIdSetPool.add(uid);
+		}
+	}
 	
 	// never used yet, feel free to remove it
 	@Deprecated

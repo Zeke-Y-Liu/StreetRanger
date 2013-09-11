@@ -12,6 +12,10 @@ public class CollectorRunnable implements Runnable {
 	private short cmd;
 	private CollectorScheduler scheduler;
 
+	public CollectorRunnable(CollectorScheduler scheduler) {
+		this.scheduler = scheduler;
+	}
+	
 	public synchronized void setCommand(short cmd) {
 		this.cmd = cmd;
 	}

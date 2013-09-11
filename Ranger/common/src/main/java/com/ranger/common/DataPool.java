@@ -25,7 +25,7 @@ public interface DataPool<T> {
 	 * get all the data out of the pool
 	 * and clean the data cache
 	 */
-	public  Collection<T> dumpOut();
+	public  List<T> dumpOut();
 	
 	/*
 	 * take one element from element
