@@ -17,7 +17,6 @@ import com.ranger.common.DataPool;
 import com.ranger.common.SetDataPool;
 import com.ranger.common.User;
 import com.ranger.dao.Dao;
-import com.ranger.dao.SpringUtil;
 import com.ranger.util.AccessTokenUtil;
 
 /*
