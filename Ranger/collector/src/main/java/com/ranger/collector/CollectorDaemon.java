@@ -75,7 +75,7 @@ public class CollectorDaemon {
 		String commandLine = null;
 		try {
 			commandLine = reader.readLine();
-			while(CMD_STOP.equalsIgnoreCase(commandLine)) {
+			while(!CMD_STOP.equalsIgnoreCase(commandLine)) {
 				commandLine = reader.readLine();
 			}
 		} catch (IOException e) {

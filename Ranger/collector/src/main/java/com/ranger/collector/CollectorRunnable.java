@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 public class CollectorRunnable implements Runnable {
 	static Logger log = Logger.getLogger(CollectorRunnable.class.getName());
 	
-	public static short COMMAND_STOP = 0;
+	public static short COMMAND_STOP = 99;
 	// an external command to interfere this thread, for example, resume the
 	// thread by notifying
 	// suspend this thread by stop.
@@ -23,7 +23,7 @@ public class CollectorRunnable implements Runnable {
 	@Override
 	public void run() {
 		// cmd is not stop
-		while (cmd != 0) {
+		while (cmd != COMMAND_STOP) {
 			long result = scheduler.schedule();
 			if (result == 0) {
 				synchronized (scheduler) {
