@@ -78,7 +78,7 @@ public class Dao {
 		List<DataObject> dataObjectList = new ArrayList<DataObject>();
 		dataObjectList.addAll(tags);
 		List<Long> ids = jdbcTemplate.execute(new WBPreparedStatementCreator(SQLConstant.TAG_INSERT, dataObjectList), new GeneratedKeysPreparedStatementCallback());
-		// populate tags with the generaed PK			
+		// populate tags with the generated PK			
 		for(int i=0; i<tags.size(); i++ ) {
 			Tag t = tags.get(i);
 			t.setId(ids.get(i));

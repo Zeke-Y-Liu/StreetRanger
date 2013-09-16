@@ -1,23 +1,26 @@
 package weibo4j;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
-import weibo4j.model.User;
+import weibo4j.model.Tag;
 import weibo4j.model.WeiboException;
 import weibo4j.util.Log;
 
-public class ShowUserTest {
+public class ShowTagsTest {
 
 	@Test
-	public void testShowUser() {
+	public void testShowTags() {
 		String access_token = "2.00d5evFEnhnsoBc45cd025fencuzbE";//get token code from <code>OAuth4Code.java</code>
 		String uid ="3752152991";
-		Users um = new Users();
-		um.client.setToken(access_token);
+		Tags tm = new Tags();
+		tm.client.setToken(access_token);
 		try {
-			User user = um.showUserById(uid);
-			Log.logInfo(user.toString());
-			
+			List<Tag> wbTags = tm.getTags(uid);
+			for(Tag tag : wbTags){
+				Log.logInfo(tag.toString());
+			}			
 		} catch (WeiboException e) {
 			e.printStackTrace();
 		}
