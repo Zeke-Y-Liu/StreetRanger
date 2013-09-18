@@ -1,56 +1,18 @@
-1. we can refine the xxxPreparedStatementCreator to have abstract PreparedStatementCreator to resolve below issue
-a) parameterized type for varient data object
-b) set null value
-c) sql can be a parameter
-
-可以参考一下这个：http://wenku.baidu.com/view/6039960c90c69ec3d5bb7588.html
+@野兽派花店 UID2552134982 
+@复古写真馆 UID2734116907
 
 
-927  INFO  [2013-09-06 14:30:25]  User [id=3752152991, screenName=StreetRanger, name=StreetRanger, province=11, city=1, location=北京 东城区, description=, url=, profileImageUrl=http://tp4.sinaimg.cn/3752152991/50/0/0, userDomain=, gender=f, followersCount=11, friendsCount=46, statusesCount=0, favouritesCount=0, createdAt=Sat Aug 31 22:57:42 CST 2013, following=false, verified=false, verifiedType=-1, allowAllActMsg=false, allowAllComment=true, followMe=false, avatarLarge=http://tp4.sinaimg.cn/3752152991/180/0/0, onlineStatus=0, status=null, biFollowersCount=0, remark=null, lang=zh-cn, verifiedReason=, weihao=, statusId=]
+ 
+1 程序怎么中断
+在CollectorDaemon，中写了个接受命令行的代码，可以执行一些管理collector的工作，还没有实现 
 
-这是返回的用户信息
-StreetRanger 是我们自己建的
+2  双向follow的判断以及跳出
+在收集的时候不会有重复的，用Set来保存UID,数据库中的重复检查好像实现了，要看下，如果没有的话，根据UID来检查，应该容易实现 
 
-https://api.weibo.com/oauth2/authorize?client_id=1668010415&redirect_uri=http://www.weibo.com&response_type=code&state=state&scope=scope
-Hit enter when it's done.[Enter]:5a0da338b829f3a301ad970572b95b1c
-0    INFO  [2013-09-10 20:14:26]  code: 5a0da338b829f3a301ad970572b95b1c
-0    DEBUG [2013-09-10 20:14:26]  Request:
-0    DEBUG [2013-09-10 20:14:26]  POSThttps://api.weibo.com/oauth2/access_token
-703  DEBUG [2013-09-10 20:14:27]  Response:
-703  DEBUG [2013-09-10 20:14:27]  https StatusCode:200
-703  DEBUG [2013-09-10 20:14:27]  Server:nginx/1.2.0
-703  DEBUG [2013-09-10 20:14:27]  Date:Tue, 10 Sep 2013 12:14:24 GMT
-703  DEBUG [2013-09-10 20:14:27]  Content-Type:text/plain;charset=UTF-8
-703  DEBUG [2013-09-10 20:14:27]  Content-Length:111
-703  DEBUG [2013-09-10 20:14:27]  Connection:keep-alive
-703  DEBUG [2013-09-10 20:14:27]  Pragma:No-cache
-703  DEBUG [2013-09-10 20:14:27]  Cache-Control:no-cache
-703  DEBUG [2013-09-10 20:14:27]  Expires:Thu, 01 Jan 1970 00:00:00 GMT
-703  DEBUG [2013-09-10 20:14:27]  Api-Server-IP:10.75.25.114
-703  DEBUG [2013-09-10 20:14:27]  {"access_token":"2.00bwB8RBnhnsoB33a16be5bf33viGB","remind_in":"110735","expires_in":110735,"uid":"1173772877"}
+3.过滤掉不活跃的用户，可以坐在分析这边，做在收集这边也可以，收集的时候过滤下就好 
 
-AccessToken [accessToken=2.00bwB8RBnhnsoB33a16be5bf33viGB, expireIn=110735, refreshToken=,uid=1173772877]
-===============================================================================
+4 如何监控daemon程序，起码log要有效
+如果需要，多写点log，然后配置log4j，如果有其他的监控需求，那就写个监控类 
 
-
-
-
-https://api.weibo.com/oauth2/authorize?client_id=1668010415&redirect_uri=http://www.weibo.com&response_type=code&state=state&scope=scope
-Hit enter when it's done.[Enter]:9a9a6fc196805b600c2fff7a39b46119
-0    INFO  [2013-09-12 20:32:34]  code: 9a9a6fc196805b600c2fff7a39b46119
-31   DEBUG [2013-09-12 20:32:34]  Request:
-31   DEBUG [2013-09-12 20:32:34]  POSThttps://api.weibo.com/oauth2/access_token
-1078 DEBUG [2013-09-12 20:32:35]  Response:
-1078 DEBUG [2013-09-12 20:32:35]  https StatusCode:200
-1078 DEBUG [2013-09-12 20:32:35]  Server:nginx/1.2.0
-1078 DEBUG [2013-09-12 20:32:35]  Date:Thu, 12 Sep 2013 12:32:37 GMT
-1078 DEBUG [2013-09-12 20:32:35]  Content-Type:text/plain;charset=UTF-8
-1078 DEBUG [2013-09-12 20:32:35]  Content-Length:111
-1078 DEBUG [2013-09-12 20:32:35]  Connection:keep-alive
-1078 DEBUG [2013-09-12 20:32:35]  Pragma:No-cache
-1078 DEBUG [2013-09-12 20:32:35]  Cache-Control:no-cache
-1078 DEBUG [2013-09-12 20:32:35]  Expires:Thu, 01 Jan 1970 00:00:00 GMT
-1093 DEBUG [2013-09-12 20:32:35]  Api-Server-IP:10.73.89.47
-1109 DEBUG [2013-09-12 20:32:35]  {"access_token":"2.00bwB8RBnhnsoB2f686d790ejToMYD","remind_in":"109645","expires_in":109645,"uid":"1173772877"}
-
-AccessToken [accessToken=2.00bwB8RBnhnsoB2f686d790ejToMYD, expireIn=109645, refreshToken=,uid=1173772877]
+5 数据库怎么设计的？ 我没找到脚本
+在根目录下resource下面有个dbscript的脚本 
