@@ -11,7 +11,9 @@ public class ShowUserTest {
 	@Test
 	public void testShowUser() {
 		String access_token = "2.00d5evFEnhnsoBc45cd025fencuzbE";//get token code from <code>OAuth4Code.java</code>
-		String uid ="3752152991";
+//		String uid ="3752152991";
+		String uid ="2734116907";
+		
 		Users um = new Users();
 		um.client.setToken(access_token);
 		try {
