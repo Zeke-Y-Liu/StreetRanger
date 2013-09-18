@@ -16,7 +16,7 @@ import com.ranger.util.AccessTokenUtil;
 
 /*
  * run this class with parameter 
- * 1. access token -- optional if not proveded by command arg, will try to get from config file
+ * 1. access token -- optional if not provided by command args, will try to get from config file
  * 2. name of the initial user pool file optional, default to initialUserPoo.properties
  * the file contains a set of screenname, uid or name
  * 

@@ -1,135 +1,18 @@
-1. we can refine the xxxPreparedStatementCreator to have abstract PreparedStatementCreator to resolve below issue
-a) parameterized type for varient data object
-b) set null value
-c) sql can be a parameter
+@野兽派花店 UID2552134982 
+@复古写真馆 UID2734116907
 
+ 
+1 程序怎么中断
+在CollectorDaemon，中写了个接受命令行的代码，可以执行一些管理collector的工作，还没有实现 
 
-class UserPreparedStatementCreator implements PreparedStatementCreator {
-	private List<User> users;
-	public UserPreparedStatementCreator(List<User> users) {
-		this.users = users;
-	}
+2  双向follow的判断以及跳出
+在收集的时候不会有重复的，用Set来保存UID,数据库中的重复检查好像实现了，要看下，如果没有的话，根据UID来检查，应该容易实现 
 
-	@Override
-	public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-		
-		PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+3.过滤掉不活跃的用户，可以坐在分析这边，做在收集这边也可以，收集的时候过滤下就好 
 
-		
-		
-		for (User u : users) {
-			ps.setString(1, u.getUid());
-			ps.setString(2, u.getScreenName());
-			ps.setString(3, u.getName());
-			ps.setInt(4, u.getProvince());
-			ps.setInt(5, u.getCity());
-			ps.setString(6, u.getLocation());
-			ps.setString(7, u.getDescription());
-			ps.setString(8, u.getUrl());
-			ps.setString(9, u.getProfileImageUrl());
-			ps.setString(10, u.getUserDomain());
-			ps.setString(11, u.getGender());
-			ps.setInt(12, u.getFollowersCount());
-			ps.setInt(13, u.getFriendsCount());
-			ps.setInt(14, u.getStatusesCount());
-			ps.setInt(15, u.getFavouritesCount());
-			if(u.getCreatedAt() != null) {
-				ps.setDate(16, new Date(u.getCreatedAt().getTime()));
-			}
-			ps.setString(17, Bool.getBool(u.isFollowing()).getValue());
-			ps.setString(18, Bool.getBool(u.isVerified()).getValue());
-			ps.setInt(19, u.getVerifiedType());			
-			ps.setString(20, Bool.getBool(u.isAllowAllActMsg()).getValue());
-			ps.setString(21, Bool.getBool(u.isAllowAllComment()).getValue());
-			ps.setString(22, Bool.getBool(u.isFollowMe()).getValue());
-			ps.setString(23, u.getAvatarLarge());
-			ps.setInt(24, u.getOnlineStatus());
-			ps.setInt(25, u.getBiFollowersCount());
-			ps.setString(26, u.getRemark());
-			ps.setString(27, u.getLang());
-			ps.setString(28, u.getVerifiedReason());
-			ps.setString(29, u.getWeihao());
-			ps.setString(30, u.getStatusId());
-			ps.addBatch();
-		}
-		return ps;
-	}
-}
+4 如何监控daemon程序，起码log要有效
+如果需要，多写点log，然后配置log4j，如果有其他的监控需求，那就写个监控类 
 
-
-class StatusPreparedStatementCreator implements PreparedStatementCreator {
-	private List<Status> satuses;
-		public StatusPreparedStatementCreator(List<Status> satuses) {
-		this.satuses = satuses;
-	}
-		
-@Override
-public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-	PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-
-		for (Status s : satuses) {
-			ps.setString(1, s.getStid());
-			ps.setLong(2, s.getUserId());
-			if(s.getCreatedAt() != null) {
-				ps.setDate(3, new Date(s.getCreatedAt().getTime()));
-			}
-			ps.setString(4, s.getMid());
-			ps.setLong(5, s.getIdstr());		
-			ps.setString(6, s.getText());
-			ps.setLong(7, s.getSourceId());
-			ps.setString(8, Bool.getBool(s.isFavorited()).getValue());
-			ps.setString(9, Bool.getBool(s.isTruncated()).getValue());
-			ps.setLong(10, s.getInReplyToStatusId());
-			ps.setLong(11, s.getInReplyToUserId());
-			ps.setString(12, s.getInReplyToScreenName());
-			ps.setString(13, s.getThumbnailPic());
-			ps.setString(14, s.getBmiddlePic());
-			ps.setString(15, s.getOriginalPic());
-			ps.setLong(16, s.getRetweetedStatusId());		
-			ps.setString(17, s.getGeo());
-			ps.setDouble(18, s.getLatitude());
-			ps.setDouble(19, s.getLongitude());
-			ps.setInt(20, s.getRepostsCount());
-			ps.setInt(21, s.getCommentsCount());
-			ps.setString(22, s.getAnnotations());
-			ps.setInt(23, s.getMlevel());
-			ps.setLong(24, s.getVisibleId());
-			ps.addBatch();
-		}
-		return ps;
-	}
-}
-
-
-好了
-我提交了
-熊出，没注意  14:32:23
-有一个工具类，run一下，可以取到code 和 token. code和token 可以用在其他地方。 code 是每次都会变化的，只能执行一次。 token可以一直用。 
-熊出，没注意  14:33:42
-可以参考一下这个：http://wenku.baidu.com/view/6039960c90c69ec3d5bb7588.html
-
-
-927  INFO  [2013-09-06 14:30:25]  User [id=3752152991, screenName=StreetRanger, name=StreetRanger, province=11, city=1, location=北京 东城区, description=, url=, profileImageUrl=http://tp4.sinaimg.cn/3752152991/50/0/0, userDomain=, gender=f, followersCount=11, friendsCount=46, statusesCount=0, favouritesCount=0, createdAt=Sat Aug 31 22:57:42 CST 2013, following=false, verified=false, verifiedType=-1, allowAllActMsg=false, allowAllComment=true, followMe=false, avatarLarge=http://tp4.sinaimg.cn/3752152991/180/0/0, onlineStatus=0, status=null, biFollowersCount=0, remark=null, lang=zh-cn, verifiedReason=, weihao=, statusId=]
-
-这是返回的用户信息
-StreetRanger 是我们自己建的
-
-https://api.weibo.com/oauth2/authorize?client_id=1668010415&redirect_uri=http://www.weibo.com&response_type=code&state=state&scope=scope
-Hit enter when it's done.[Enter]:5a0da338b829f3a301ad970572b95b1c
-0    INFO  [2013-09-10 20:14:26]  code: 5a0da338b829f3a301ad970572b95b1c
-0    DEBUG [2013-09-10 20:14:26]  Request:
-0    DEBUG [2013-09-10 20:14:26]  POSThttps://api.weibo.com/oauth2/access_token
-703  DEBUG [2013-09-10 20:14:27]  Response:
-703  DEBUG [2013-09-10 20:14:27]  https StatusCode:200
-703  DEBUG [2013-09-10 20:14:27]  Server:nginx/1.2.0
-703  DEBUG [2013-09-10 20:14:27]  Date:Tue, 10 Sep 2013 12:14:24 GMT
-703  DEBUG [2013-09-10 20:14:27]  Content-Type:text/plain;charset=UTF-8
-703  DEBUG [2013-09-10 20:14:27]  Content-Length:111
-703  DEBUG [2013-09-10 20:14:27]  Connection:keep-alive
-703  DEBUG [2013-09-10 20:14:27]  Pragma:No-cache
-703  DEBUG [2013-09-10 20:14:27]  Cache-Control:no-cache
-703  DEBUG [2013-09-10 20:14:27]  Expires:Thu, 01 Jan 1970 00:00:00 GMT
-703  DEBUG [2013-09-10 20:14:27]  Api-Server-IP:10.75.25.114
-703  DEBUG [2013-09-10 20:14:27]  {"access_token":"2.00bwB8RBnhnsoB33a16be5bf33viGB","remind_in":"110735","expires_in":110735,"uid":"1173772877"}
-
-AccessToken [accessToken=2.00bwB8RBnhnsoB33a16be5bf33viGB, expireIn=110735, refreshToken=,uid=1173772877]
+5 数据库怎么设计的？ 我没找到脚本
+在根目录下resource下面有个dbscript的脚本 
+ 
