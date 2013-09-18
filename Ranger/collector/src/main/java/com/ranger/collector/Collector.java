@@ -43,7 +43,7 @@ public class Collector {
 	private DataPool<String> avaiableUserIdSetPool = new SetDataPool<String>(0);
 	
 	// hold a set of user to be flushed to database
-	private DataPool<User> userPool = new SetDataPool<User>(1000);
+	private DataPool<User> userPool = new SetDataPool<User>(100);
 	
 	// a list of friends of a uid
 	private List<User> friends = new ArrayList<User>();
