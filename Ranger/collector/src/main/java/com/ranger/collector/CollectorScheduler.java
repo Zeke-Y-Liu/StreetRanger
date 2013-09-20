@@ -11,7 +11,7 @@ public class CollectorScheduler {
 	
 	static Logger log = Logger.getLogger(CollectorScheduler.class.getName());
 	
-	// reatuest times within hour, will be reset when next recording period(next hour) begins
+	// request times within hour, will be reset when next recording period(next hour) begins
 	private int reqeustTimes;
 	
 	// the time when the first request occurs, used to determine if the requests number reaches 1000 within an hour 
@@ -30,16 +30,13 @@ public class CollectorScheduler {
 	 * schedule the collector according to the policy and restriction of weibo API.
 	 * return 
 	 * 1. -1 if collector can proceed, 
-	 * 2. 0 if collection need to suspend, for example there is no available user id, 
+	 * 2. 0 if collection need to suspend, for example there is no available new user, 
 	 * 3. positive number if the collector need to sleep some time because of the 
 	 * number of request per hour
 	 */
 	long schedule() {
 		
 		long result = -1;
-		if(!collector.hasAvaiableUserId()) {
-			result = 0;
-		}
 		reqeustTimes ++;
 		long timeElapsed = System.currentTimeMillis() - periodStartTime;
 		if(reqeustTimes < 1000) {
@@ -62,7 +59,7 @@ public class CollectorScheduler {
 			}
 		}
 		collector.collect();
-		if(collector.isUserPoolFull()) {
+		if(collector.isReadyToFlush()) {
 			collector.flush2DB();
 		}
 		return result;

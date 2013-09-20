@@ -27,11 +27,30 @@ public interface DataPool<T> {
 	 */
 	public  List<T> dumpOut();
 	
-	/*
-	 * take one element from element
-	 * remove the element from pool
-	 */
-	public T takeOne();
+//	/*
+//	 * take one element from element
+//	 * remove the element from pool
+//	 */
+//	public T takeOne();
 	
 	public int size();
+	
+//	/*
+//	 * get current element
+//	 * 
+//	 */
+//	public T getCurrent();
+	/*
+	 * move the cursor to next element
+	 * 
+	 */
+	public T next();
+	
+	/*
+	 * move the cursor to first element if pool is not empty
+	 * else current cursor is -1 
+	 */
+	public void reset();
+	
+	public boolean hasNext();
 }

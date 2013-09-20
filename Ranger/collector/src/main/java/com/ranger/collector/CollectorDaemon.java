@@ -17,19 +17,10 @@ import com.ranger.util.AccessTokenUtil;
 /*
  * run this class with parameter 
  * 1. access token -- optional if not provided by command args, will try to get from config file
- * 2. name of the initial user pool file optional, default to initialUserPoo.properties
- * the file contains a set of screenname, uid or name
- * 
- * the format of int initial user pool file can be
- * accessToken = xxxxx
- * uid = id1, id2, id3...
- * screenname = screenname1, screenname2, screenname3 ...
- * name = name1, name2, name3 ...
+ * accessToken = xxxxx..
  * 
  */
 public class CollectorDaemon {
-
-	private static String UID = "uid";
 	private static String CMD_STOP = "stop";
 	private static String ACCESS_TOKEN = "accessToken";
 	
@@ -60,13 +51,8 @@ public class CollectorDaemon {
 			return;
 		}
 		
-		AccessTokenUtil.setAccessToken(accessToken);
-		Collector collector = new Collector(SpringUtil.getDao());
-		List<String> uids = new ArrayList<String>();
-		for(String uid : config.getStringArray(UID)) {
-			uids.add(uid);
-		}
-		collector.initUidPool(uids);
+		// AccessTokenUtil.setAccessToken(accessToken);
+		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken);
 		CollectorScheduler scheduler = new CollectorScheduler(collector);
 		CollectorRunnable runnable = new CollectorRunnable(scheduler);
 		Thread collectorThread = new Thread(runnable);

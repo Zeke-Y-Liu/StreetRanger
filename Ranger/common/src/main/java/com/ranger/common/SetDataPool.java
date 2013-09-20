@@ -13,6 +13,7 @@ public class SetDataPool<T> implements DataPool<T> {
 
 	private List<T> _data = new ArrayList<T>();
 	private int _size;
+	private int cursor = -1;
 	
 	/*
 	 * size == 0 means Integer.MAX_VALUE
@@ -35,6 +36,9 @@ public class SetDataPool<T> implements DataPool<T> {
 	@Override
 	public synchronized boolean add(T t) {
 		_data.add(t);
+		if(cursor == -1){
+			cursor = 0;
+		}
 		if(_data.size() < _size && !_data.contains(t)) {
 			return true;
 		} else {
@@ -68,18 +72,51 @@ public class SetDataPool<T> implements DataPool<T> {
 		return result;
 	}
 	
+//	@Override
+//	public T takeOne() {
+//		if(!_data.isEmpty()) {
+//			cursor --;
+//			return _data.remove(0);
+//		} else {
+//			return null;
+//		}
+//	}
+
 	@Override
-	public T takeOne() {
-		if(!_data.isEmpty()) {
-			return _data.remove(0);
+	public int size() {
+		return _data.size();
+	}
+
+//	@Override
+//	public T getCurrent() {
+//		if(!_data.isEmpty()) {
+//			return _data.get(cursor);
+//		} else {
+//			return null;
+//		}
+//	}
+
+	@Override
+	public T next() {
+		cursor ++;
+		if(cursor < _data.size()) {
+			return _data.get(cursor);
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public int size() {
-		return _data.size();
+	public void reset() {
+		if(_data.isEmpty()) {
+			cursor = -1;
+		} else {
+			cursor = 0;
+		}
 	}
-	
+
+	@Override
+	public boolean hasNext() {
+		return cursor < _data.size()-1;
+	}
 }
