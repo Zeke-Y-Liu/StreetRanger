@@ -17,4 +17,8 @@
 5 数据库怎么设计的？ 我没找到脚本
 在根目录下resource下面有个dbscript的脚本 
 
+============================================================
 http://open.weibo.com/wiki/index.php/Rate-limiting
+need to check mysql db charset. 
+
+
