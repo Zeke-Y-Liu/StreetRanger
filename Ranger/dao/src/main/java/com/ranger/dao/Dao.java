@@ -41,6 +41,15 @@ public class Dao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	public User loadUserByUid(String uid) {
+		String sql = SQLConstant.USER_SELECT + "WHERE `UID` = ?";
+		List<User> users = jdbcTemplate.query(sql, new String[]{ uid}, new UserRowMapper());
+		if(users != null && users.size() > 0) {
+			return users.get(0);
+		} else {
+			return null;
+		}
+	}
 	public List<User> loadUserByNameLike(String name) {
 		String sql = SQLConstant.USER_SELECT + "WHERE `NAME` LIKE ?";
 		return jdbcTemplate.query(sql, new String[]{ "%" + name + "%" }, new UserRowMapper());

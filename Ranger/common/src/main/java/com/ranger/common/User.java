@@ -417,6 +417,9 @@ public class User implements DataObject {
 	}
 
 	public List<Tag> getTags() {
+		if(tags == null) {
+			tags = new ArrayList<Tag>();
+		}
 		return tags;
 	}
 
@@ -490,8 +493,5 @@ public class User implements DataObject {
 		dataField = new DataField(DataFieldType.STRING, 31, statusId);
 		dataFieldList.add(dataField);
 		return dataFieldList;
-	}
-
-	
-	
+	}	
 }

@@ -20,6 +20,11 @@ public class CollectorScheduler {
 	
 	// an hour in second
 	private long AN_HOUR_IN_MILLISECOND = 60*60*1000;
+	private int TOTAL_REQUEST_PER_HOUR = 150;
+	private int TOTAL_REQUEST_PER_HOUR_LOW_WATER = 120;
+	
+	// if request times reach 150 within 40 mins, considering multiple token.
+	private long TOTAL_TIME_LOW_WATER = 40*60*1000;
 	
 	private Collector collector;
 	
@@ -39,13 +44,13 @@ public class CollectorScheduler {
 		long result = -1;
 		reqeustTimes ++;
 		long timeElapsed = System.currentTimeMillis() - periodStartTime;
-		if(reqeustTimes < 1000) {
+		if(reqeustTimes < TOTAL_REQUEST_PER_HOUR) {
 			if(timeElapsed >= AN_HOUR_IN_MILLISECOND) {
 				// an hour elapsed, reset and count
 				periodStartTime = System.currentTimeMillis();
 				reqeustTimes = 1;
-				// if request times is less than 800 per hour, considering multiple thread. 
-				if(reqeustTimes < 800) {
+				// if request times is less than 120 per hour, considering multiple thread. 
+				if(reqeustTimes < TOTAL_REQUEST_PER_HOUR_LOW_WATER) {
 					log.info("Less than 1000 request per hour, suffering performance issue, considering multiple thread" + "time=" + timeElapsed + " request=" + reqeustTimes);
 				}
 			}
@@ -53,9 +58,9 @@ public class CollectorScheduler {
 		} else {
 			result = AN_HOUR_IN_MILLISECOND - timeElapsed;
 			
-			// if request times reach 1000 within 40 mins, considering multiple token. 
-			if(timeElapsed < 40*60*1000) {
-				log.info("1000 requests within 40 mins, suffering performance issue, considering multiple token" + "time=" + timeElapsed + " request=" + reqeustTimes);
+			// if request times reach 150 within 40 mins, considering multiple token. 
+			if(timeElapsed < TOTAL_TIME_LOW_WATER) {
+				log.info("150 requests within 40 mins, suffering performance issue, considering multiple token" + "time=" + timeElapsed + " request=" + reqeustTimes);
 			}
 		}
 		collector.collect();

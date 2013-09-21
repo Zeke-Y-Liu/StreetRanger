@@ -21,12 +21,10 @@ public class ListDataPool<T> implements DataPool<T> {
 	@Override
 	public synchronized boolean add(T t) {
 		_data.add(t);
-		
 		if(cursor == -1){
 			cursor = 0;
 		}
-		
-		if(_data.size() < _size && !_data.contains(t)) {
+		if(!_data.contains(t)) {
 			return true;
 		} else {
 			return false;
