@@ -57,16 +57,13 @@ public class TimelineCollector implements Collector {
 	// 3. loop the above steps recursively
 	@Override
 	public void collect() {
-		System.out.println("EEEEE");
 		if(userPool.hasNext()) {
-			System.out.println("FFFFF");
 			com.ranger.common.User user =  userPool.next();
 			List<Tag> wbTags = null;
 			try {
 				wbTags = tm.getTags(user.getUid());
 			} catch (WeiboException e) {
 				log.error(e);
-				e.printStackTrace();
 				// in case exception, ignore, proceed with next one
 				return;
 			}
@@ -76,14 +73,10 @@ public class TimelineCollector implements Collector {
 				tags.add(tag);
 			}
 			user.setTags(tags);
-			System.out.println("GGGGG");
 		} else {
-			System.out.println("TimelineCollector:accessToken=" + tlm.client.getToken());
 			try {
 				StatusWapper status = tlm.getPublicTimeline(10,0);//max count is 200
-				System.out.println("AAAAAA");
 				for(Status s : status.getStatuses()){
-					System.out.println("BBBBB");
 					weibo4j.model.User u = s.getUser();
 					User user = new User(null, // database PK
 							u.getId(),
@@ -118,7 +111,6 @@ public class TimelineCollector implements Collector {
 							u.getStatusId(),
 							null // tags
 							);
-					System.out.println("CCCCC");
 					// duplicated check in db
 					if(dao.loadUserByUid(u.getId())==null) {
 						userPool.add(user);
@@ -126,7 +118,6 @@ public class TimelineCollector implements Collector {
 						log.warn("duplicated user, uid=" + u.getId());
 					}
 				}
-				System.out.println("DDDDDD");
 			} catch (WeiboException e) {
 				log.error(e);
 				e.printStackTrace();
