@@ -22,3 +22,4 @@ http://open.weibo.com/wiki/index.php/Rate-limiting
 need to check mysql db charset. 
 
 
+http://hi.baidu.com/wangzhe1945/item/5d11e7f536ca39763c198bd0
