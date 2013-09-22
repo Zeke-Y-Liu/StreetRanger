@@ -12,17 +12,18 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import com.ranger.dao.SpringUtil;
-import com.ranger.util.AccessTokenUtil;
+import com.ranger.util.PropertityNameConstant;
 
 /*
  * run this class with parameter 
- * 1. access token -- optional if not provided by command args, will try to get from config file
- * accessToken = xxxxx..
+ * 1. accessToken -- optional if not provided by command args, will try to get from config file
+ * 2. totalRequestPerHour -- default to 150, max reqeusts allowed by weobi API limitation 
+ * 3. requestPerHourLowWarter -- default to 120, for any reason, for e.g poor network, poor pc, if actual request per hour less than actualRequestPerHourLowWarter, we see it warning sign of poor performance
+ * 4. timePerMaxRequestTimesLowWarter --  default to 40 mins, if request times reach 150 within 40 mins, that means the bottle neck is weibo API limited request, we can improve total through put by using multiple ip, or access token
  * 
  */
 public class CollectorDaemon {
 	private static String CMD_STOP = "stop";
-	private static String ACCESS_TOKEN = "accessToken";
 	
 	static Logger log = Logger.getLogger(Collector.class.getName());
 	
@@ -32,7 +33,7 @@ public class CollectorDaemon {
 			accessToken = args[0];
 		}
 		
-		String intialUserPoolFileName = "initialUserPoo.properties";
+		String intialUserPoolFileName = "initialUserPool.properties";
 		if(args.length > 1 && !StringUtils.trimToEmpty(args[1]).equals("")) {
 			intialUserPoolFileName = args[1];
 		}
@@ -44,16 +45,19 @@ public class CollectorDaemon {
 			return;
 		}
 		
-		if(accessToken == null && !StringUtils.trimToEmpty(config.getString(ACCESS_TOKEN)).equals("") ) {
-			accessToken = StringUtils.trimToEmpty(config.getString(ACCESS_TOKEN));
+		if(accessToken == null && !StringUtils.trimToEmpty(config.getString(PropertityNameConstant.ATTR_ACCESS_TOKEN)).equals("") ) {
+			accessToken = StringUtils.trimToEmpty(config.getString(PropertityNameConstant.ATTR_ACCESS_TOKEN));
 		} else {
 			log.error("no access token provided");
 			return;
 		}
 		
-		// AccessTokenUtil.setAccessToken(accessToken);
+		int totalRequestPerHour = config.getInt(PropertityNameConstant.ATTR_TOTAL_REQUEST_PER_HOUR);
+		int requestPerHourLowWarter = config.getInt(PropertityNameConstant.ATTR_REQUEST_PER_HOUR_LOW_WARTER);
+		long timePerMaxRequestTimesLowWarter = config.getLong(PropertityNameConstant.ATTR_TIME_PER_MAX_REQUEST_TIMES_LOW_WATER);
+
 		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken);
-		CollectorScheduler scheduler = new CollectorScheduler(collector);
+		CollectorScheduler scheduler = new CollectorScheduler(collector, totalRequestPerHour, requestPerHourLowWarter, timePerMaxRequestTimesLowWarter);
 		CollectorRunnable runnable = new CollectorRunnable(scheduler);
 		Thread collectorThread = new Thread(runnable);
 		collectorThread.start();

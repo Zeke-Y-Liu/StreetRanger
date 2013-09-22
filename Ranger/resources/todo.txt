@@ -1,22 +1,4 @@
-@野兽派花店 UID2552134982 
-@复古写真馆 UID2734116907
-
-
- 
-1 程序怎么中断
-在CollectorDaemon，中写了个接受命令行的代码，可以执行一些管理collector的工作，还没有实现 
-
-2  双向follow的判断以及跳出
-在收集的时候不会有重复的，用Set来保存UID,数据库中的重复检查好像实现了，要看下，如果没有的话，根据UID来检查，应该容易实现 
-
-3.过滤掉不活跃的用户，可以坐在分析这边，做在收集这边也可以，收集的时候过滤下就好 
-
-4 如何监控daemon程序，起码log要有效
-如果需要，多写点log，然后配置log4j，如果有其他的监控需求，那就写个监控类 
-
-5 数据库怎么设计的？ 我没找到脚本
-在根目录下resource下面有个dbscript的脚本 
-
+1. refine the CollectorDaemon and TimelineCollector to make the low water to be configurable.
 ============================================================
 http://open.weibo.com/wiki/index.php/Rate-limiting
 need to check mysql db charset. 

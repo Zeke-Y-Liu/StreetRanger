@@ -20,16 +20,32 @@ public class CollectorScheduler {
 	
 	// an hour in second
 	private long AN_HOUR_IN_MILLISECOND = 60*60*1000;
-	private int TOTAL_REQUEST_PER_HOUR = 150;
-	private int TOTAL_REQUEST_PER_HOUR_LOW_WATER = 120;
+	// weibo API has limited request times, so we need to schedule the request accordingly.
+	private int totalRequestPerHour = 150;
 	
-	// if request times reach 150 within 40 mins, considering multiple token.
-	private long TOTAL_TIME_LOW_WATER = 40*60*1000;
+	// for any reason, for e.g poor network, poor pc, if actual request per hour less than actualRequestPerHourLowWarter, we see it warning sign of poor performance
+	private int requestPerHourLowWarter = 120;
+	
+	// if request times reach 150 within 40 mins, that means the bottle neck is weibo API limited request, 
+	// we can improve total through put by using multiple ip, or access token
+	private long timePerMaxRequestTimesLowWarter = 40*60*1000;
 	
 	private Collector collector;
-	
-	public CollectorScheduler(Collector collector) {
+
+	public CollectorScheduler(Collector collector, int totalRequestPerHour, int requestPerHourLowWarter, long timePerMaxRequestTimesLowWarter) {
 		this.collector = collector;
+		
+		if(totalRequestPerHour != 0) {
+			this.totalRequestPerHour = totalRequestPerHour;
+		}
+		
+		if(requestPerHourLowWarter != 0) {
+			this.requestPerHourLowWarter = requestPerHourLowWarter;
+		}
+		
+		if(timePerMaxRequestTimesLowWarter != 0) {
+			this.timePerMaxRequestTimesLowWarter = timePerMaxRequestTimesLowWarter;
+		}
 	}
 	/*
 	 * schedule the collector according to the policy and restriction of weibo API.
@@ -44,13 +60,13 @@ public class CollectorScheduler {
 		long result = -1;
 		reqeustTimes ++;
 		long timeElapsed = System.currentTimeMillis() - periodStartTime;
-		if(reqeustTimes < TOTAL_REQUEST_PER_HOUR) {
+		if(reqeustTimes < totalRequestPerHour) {
 			if(timeElapsed >= AN_HOUR_IN_MILLISECOND) {
 				// an hour elapsed, reset and count
 				periodStartTime = System.currentTimeMillis();
 				reqeustTimes = 1;
 				// if request times is less than 120 per hour, considering multiple thread. 
-				if(reqeustTimes < TOTAL_REQUEST_PER_HOUR_LOW_WATER) {
+				if(reqeustTimes < requestPerHourLowWarter) {
 					log.info("Less than 1000 request per hour, suffering performance issue, considering multiple thread" + "time=" + timeElapsed + " request=" + reqeustTimes);
 				}
 			}
@@ -59,7 +75,7 @@ public class CollectorScheduler {
 			result = AN_HOUR_IN_MILLISECOND - timeElapsed;
 			
 			// if request times reach 150 within 40 mins, considering multiple token. 
-			if(timeElapsed < TOTAL_TIME_LOW_WATER) {
+			if(timeElapsed < timePerMaxRequestTimesLowWarter) {
 				log.info("150 requests within 40 mins, suffering performance issue, considering multiple token" + "time=" + timeElapsed + " request=" + reqeustTimes);
 			}
 		}
