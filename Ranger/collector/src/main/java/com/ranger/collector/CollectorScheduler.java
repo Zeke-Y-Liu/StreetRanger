@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
  * so try to minimum the code and logic in thread related class.
  */
 
+// find an API to get real time RateLimitStatus, re-factor the Scheduler accordingly.
+// this class is Deprecated
+@Deprecated
 public class CollectorScheduler {
 	
 	static Logger log = Logger.getLogger(CollectorScheduler.class.getName());

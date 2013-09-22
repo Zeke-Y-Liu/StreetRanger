@@ -6,14 +6,17 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import weibo4j.Account;
 import weibo4j.Tags;
 import weibo4j.Timeline;
+import weibo4j.model.RateLimitStatus;
 import weibo4j.model.Status;
 import weibo4j.model.StatusWapper;
 import weibo4j.model.Tag;
 import weibo4j.model.WeiboException;
 
 import com.ranger.common.DataPool;
+import com.ranger.common.RequestRateLimit;
 import com.ranger.common.SetDataPool;
 import com.ranger.common.User;
 import com.ranger.dao.Dao;
@@ -31,12 +34,14 @@ public class TimelineCollector implements Collector {
 	private Timeline tlm = new Timeline();
 	private Tags tm = new Tags();
 	private Dao dao;
+	private String accessToken;
 	
 	public TimelineCollector(Dao dao, String accessToken) {
 		if("".equals(StringUtils.trimToEmpty(accessToken))) {
 			log.error("access token is not valid.");
 			return;
 		}
+		this.accessToken = accessToken;
 		tlm.client.setToken(accessToken);
 		tm.client.setToken(accessToken);
 		this.dao = dao;
@@ -153,5 +158,21 @@ public class TimelineCollector implements Collector {
 	@Override
 	public boolean isReadyToFlush() {
 		return !userPool.hasNext();
+	}
+
+	@Override
+	public RequestRateLimit getRateLimit() {
+		Account am = new Account();
+		am.client.setToken(accessToken);
+		RateLimitStatus limitStatus = null;
+		try {
+			limitStatus = am.getAccountRateLimitStatus();
+		} catch (WeiboException e) {
+			log.error(e);
+		}
+		
+		RequestRateLimit ratelimit = new RequestRateLimit(limitStatus.getUserLimit(), limitStatus.getRemainingUserHits(), limitStatus.getResetTimeInSeconds());
+		
+		return ratelimit;
 	}
 }

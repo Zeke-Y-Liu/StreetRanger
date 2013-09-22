@@ -8,6 +8,10 @@ import java.io.FileInputStream;
 import java.net.URL;
 
 public class PropertiesUtil {
+	
+	public static String ATTR_ACCESS_TOKEN = "accessToken";	
+	public static String  ATTR_TIME_GAP_THRESHOLD = "timeGapThreshold";
+	
     private PropertiesUtil() {  }
     /**
      * Load a properties file from the classpath

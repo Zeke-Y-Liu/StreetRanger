@@ -1,5 +1,6 @@
 package com.ranger.collector;
-import java.util.Collection;
+
+import com.ranger.common.RequestRateLimit;
 
 
 /*
@@ -17,10 +18,10 @@ public interface Collector {
 
 	public void collect();
 	public int flush2DB();
-
-	// public int getUserPoolSize();
 	/*
 	 * when all the users are populated, flush to database
 	 */
 	public boolean isReadyToFlush();
+	
+	public RequestRateLimit getRateLimit();
 }

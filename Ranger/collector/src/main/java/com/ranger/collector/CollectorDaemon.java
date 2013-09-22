@@ -12,7 +12,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import com.ranger.dao.SpringUtil;
-import com.ranger.util.PropertityNameConstant;
+import com.ranger.util.PropertiesUtil;
 
 /*
  * run this class with parameter 
@@ -45,19 +45,17 @@ public class CollectorDaemon {
 			return;
 		}
 		
-		if(accessToken == null && !StringUtils.trimToEmpty(config.getString(PropertityNameConstant.ATTR_ACCESS_TOKEN)).equals("") ) {
-			accessToken = StringUtils.trimToEmpty(config.getString(PropertityNameConstant.ATTR_ACCESS_TOKEN));
+		if(accessToken == null && !StringUtils.trimToEmpty(config.getString(PropertiesUtil.ATTR_ACCESS_TOKEN)).equals("") ) {
+			accessToken = StringUtils.trimToEmpty(config.getString(PropertiesUtil.ATTR_ACCESS_TOKEN));
 		} else {
 			log.error("no access token provided");
 			return;
 		}
 		
-		int totalRequestPerHour = config.getInt(PropertityNameConstant.ATTR_TOTAL_REQUEST_PER_HOUR);
-		int requestPerHourLowWarter = config.getInt(PropertityNameConstant.ATTR_REQUEST_PER_HOUR_LOW_WARTER);
-		long timePerMaxRequestTimesLowWarter = config.getLong(PropertityNameConstant.ATTR_TIME_PER_MAX_REQUEST_TIMES_LOW_WATER);
+		long timeGapThreshold = config.getLong(PropertiesUtil.ATTR_TIME_GAP_THRESHOLD);
 
 		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken);
-		CollectorScheduler scheduler = new CollectorScheduler(collector, totalRequestPerHour, requestPerHourLowWarter, timePerMaxRequestTimesLowWarter);
+		DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
 		CollectorRunnable runnable = new CollectorRunnable(scheduler);
 		Thread collectorThread = new Thread(runnable);
 		collectorThread.start();

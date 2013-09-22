@@ -10,9 +10,9 @@ public class CollectorRunnable implements Runnable {
 	// thread by notifying
 	// suspend this thread by stop.
 	private short cmd;
-	private CollectorScheduler scheduler;
+	private DynamicCollectorScheduler scheduler;
 
-	public CollectorRunnable(CollectorScheduler scheduler) {
+	public CollectorRunnable(DynamicCollectorScheduler scheduler) {
 		this.scheduler = scheduler;
 	}
 	
