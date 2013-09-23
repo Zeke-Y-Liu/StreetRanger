@@ -35,8 +35,9 @@ public class TimelineCollector implements Collector {
 	private Tags tm = new Tags();
 	private Dao dao;
 	private String accessToken;
+	private int batchSize;
 	
-	public TimelineCollector(Dao dao, String accessToken) {
+	public TimelineCollector(Dao dao, String accessToken, int batchSize) {
 		if("".equals(StringUtils.trimToEmpty(accessToken))) {
 			log.error("access token is not valid.");
 			return;
@@ -45,6 +46,7 @@ public class TimelineCollector implements Collector {
 		tlm.client.setToken(accessToken);
 		tm.client.setToken(accessToken);
 		this.dao = dao;
+		this.batchSize = batchSize;
 	}
 	
 	// hold a set of user to be flushed to database
@@ -75,7 +77,7 @@ public class TimelineCollector implements Collector {
 			user.setTags(tags);
 		} else {
 			try {
-				StatusWapper status = tlm.getPublicTimeline(200,0);//max count is 200
+				StatusWapper status = tlm.getPublicTimeline(batchSize,0);//max count is 200
 				for(Status s : status.getStatuses()){
 					weibo4j.model.User u = s.getUser();
 					User user = new User(null, // database PK

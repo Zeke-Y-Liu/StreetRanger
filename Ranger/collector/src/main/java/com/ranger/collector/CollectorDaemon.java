@@ -53,8 +53,8 @@ public class CollectorDaemon {
 		}
 		
 		long timeGapThreshold = config.getLong(PropertiesUtil.ATTR_TIME_GAP_THRESHOLD);
-
-		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken);
+		int batchSize = config.getInt(PropertiesUtil.ATTR_BATCH_SIZE);
+		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken, batchSize);
 		DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
 		CollectorRunnable runnable = new CollectorRunnable(scheduler);
 		Thread collectorThread = new Thread(runnable);

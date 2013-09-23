@@ -10,7 +10,8 @@ import java.net.URL;
 public class PropertiesUtil {
 	
 	public static String ATTR_ACCESS_TOKEN = "accessToken";	
-	public static String  ATTR_TIME_GAP_THRESHOLD = "timeGapThreshold";
+	public static String ATTR_TIME_GAP_THRESHOLD = "timeGapThreshold";
+	public static String ATTR_BATCH_SIZE = "batchSize";
 	
     private PropertiesUtil() {  }
     /**
