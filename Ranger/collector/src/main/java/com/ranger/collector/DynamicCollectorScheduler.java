@@ -61,7 +61,7 @@ public class DynamicCollectorScheduler {
 			result = -1;	
 			// if request times reaches the request limit,  and request limit was reset  20(or more than 20) minutes ago 
 			// considering multiple thread to improve performance 
-			if(timeElapsed -rateLimit.getResetTimeInSecond() > timeGapThreshold) {
+			if(timeElapsed -rateLimit.getResetTimeInSecond()*1000 > timeGapThreshold) {
 				log.info("It has been more than 20 minutes since reqeust limit was reset. Suffering performance issue, considering multiple threads" + " time =" + timeElapsed + " request=" + currentRequestTimes);
 			}
 		} else {
@@ -74,6 +74,9 @@ public class DynamicCollectorScheduler {
 			}
 		}
 		rateLimit = collector.getRateLimit();
+		
+		log.info("[User Limit]: "+rateLimit.getUserLimit() +", [Remaining User Hits］: "+ rateLimit.getRemainingUserHits() +"\n");
+		
 		return result;
 	}
 	

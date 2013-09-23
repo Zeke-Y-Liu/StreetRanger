@@ -75,7 +75,7 @@ public class TimelineCollector implements Collector {
 			user.setTags(tags);
 		} else {
 			try {
-				StatusWapper status = tlm.getPublicTimeline(10,0);//max count is 200
+				StatusWapper status = tlm.getPublicTimeline(200,0);//max count is 200
 				for(Status s : status.getStatuses()){
 					weibo4j.model.User u = s.getUser();
 					User user = new User(null, // database PK
