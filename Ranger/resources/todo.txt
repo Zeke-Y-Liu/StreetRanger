@@ -47,3 +47,5 @@ ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 http://answers.perforce.com/articles/KB_Article/MySQL-error-Incorrect-string-value-xF2-xB6-xA9-xB8-for-column-DESC
 
 character_set_server=utf8mb4
+
+http://blog.csdn.net/dba_waterbin/article/details/8930209
