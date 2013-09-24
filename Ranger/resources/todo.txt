@@ -8,3 +8,6 @@ ranger@sina
 http://hi.baidu.com/wangzhe1945/item/5d11e7f536ca39763c198bd0
 
 http://open.weibo.com/wiki/Account/rate_limit_status
+
+
+CREATE DATABASE bamboo CHARACTER SET utf8 COLLATE utf8_bin;
