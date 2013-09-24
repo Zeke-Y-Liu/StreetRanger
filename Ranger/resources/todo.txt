@@ -13,3 +13,31 @@ http://open.weibo.com/wiki/Account/rate_limit_status
 CREATE DATABASE stranger CHARACTER SET utf8 COLLATE utf8_bin;
 
 CREATE DATABASE stranger CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+
+# Show database collations
+select * from information_schema.schemata;
+
+# Alter database collations
+ALTER DATABASE dbname DEFAULT COLLATE utf8_unicode_ci;
+
+# Show tables using utf8_general_ci
+select distinct table_schema, table_name, table_collation from information_schema.tables where table_collation = 'utf8_general_ci' and table_type != 'SYSTEM VIEW' AND table_schema != 'mysql';
+
+# Alter table collation (note, this does not change the data in the columns. 
+#     you must convert the data using the command below)
+ALTER TABLE dbname.tablename COLLATE utf8_unicode_ci;
+
+# Show columns
+select table_schema, table_name, column_name, collation_name, character_set_name
+from information_schema.columns 
+where table_schema not in ('information_schema','mysql','tmp') 
+and collation_name is not null and character_set_name is not null 
+and collation_name='utf8_general_ci';
+
+# Alter the data of all columns in a table
+# When converting UTF-8 data stored as latin1, this command will NOT convert that to UTF-8
+#  For example, a 3-byte UTF-8 character stored as 3 latin1 characters will not be converted
+#   to a single UTF-8 character.  It will be converted to 3 separate UTF-8 characters 
+#  representing each latin1 (gibberish) characters. You'll need to reload the data into the table.
+ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
