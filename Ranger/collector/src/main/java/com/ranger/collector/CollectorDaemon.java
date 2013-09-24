@@ -59,14 +59,16 @@ public class CollectorDaemon {
 		CollectorRunnable runnable = new CollectorRunnable(scheduler);
 		Thread collectorThread = new Thread(runnable);
 		collectorThread.start();
+		// get out of working thread's way.
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		String commandLine = null;
+		String commandLine = "";
 		try {
-			commandLine = reader.readLine();
 			while(!CMD_STOP.equalsIgnoreCase(commandLine)) {
 				commandLine = reader.readLine();
+				Thread.sleep(3000);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error(e);
 		}
 	}

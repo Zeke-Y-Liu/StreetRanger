@@ -41,3 +41,9 @@ and collation_name='utf8_general_ci';
 #   to a single UTF-8 character.  It will be converted to 3 separate UTF-8 characters 
 #  representing each latin1 (gibberish) characters. You'll need to reload the data into the table.
 ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+
+
+http://answers.perforce.com/articles/KB_Article/MySQL-error-Incorrect-string-value-xF2-xB6-xA9-xB8-for-column-DESC
+
+character_set_server=utf8mb4
