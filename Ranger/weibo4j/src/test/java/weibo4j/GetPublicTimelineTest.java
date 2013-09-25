@@ -17,7 +17,7 @@ public class GetPublicTimelineTest {
 		Timeline tm = new Timeline();
 		tm.client.setToken(access_token);
 		try {
-			StatusWapper status = tm.getPublicTimeline(200,0);//max count is 200
+			StatusWapper status = tm.getPublicTimeline(20,0);//max count is 200
 			for(Status s : status.getStatuses()){
 //				Log.logInfo(s.toString());
 				Log.logInfo(s.getUser().toString());

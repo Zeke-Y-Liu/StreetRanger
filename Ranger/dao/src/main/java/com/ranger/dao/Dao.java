@@ -63,19 +63,19 @@ public class Dao {
 		dataObjectList.addAll(users);
 		List<Long> ids = jdbcTemplate.execute(new WBPreparedStatementCreator(SQLConstant.USER_INSERT, dataObjectList), new GeneratedKeysPreparedStatementCallback());
 		// populate tags with the ids of user
-		List<Tag> allTags = new ArrayList<Tag>();
-		for(int i=0; i<users.size(); i++ ) {
-			User u = users.get(i);
-			u.setId(ids.get(i));
-			
-			List<Tag> tags = u.getTags();
-			for(Tag tag : tags) {
-				tag.setUserId(ids.get(i));
-			}
-			allTags.addAll(tags);
-		}
-		
-		batchInsertTag(allTags);
+//		List<Tag> allTags = new ArrayList<Tag>();
+//		for(int i=0; i<users.size(); i++ ) {
+//			User u = users.get(i);
+//			u.setId(ids.get(i));
+//			
+//			List<Tag> tags = u.getTags();
+//			for(Tag tag : tags) {
+//				tag.setUserId(ids.get(i));
+//			}
+//			allTags.addAll(tags);
+//		}
+//		
+//		batchInsertTag(allTags);
 		 return users;
 	}
 

@@ -60,21 +60,21 @@ public class TimelineCollector implements Collector {
 	@Override
 	public void collect() {
 		if(userPool.hasNext()) {
-			com.ranger.common.User user =  userPool.next();
-			List<Tag> wbTags = null;
-			try {
-				wbTags = tm.getTags(user.getUid());
-			} catch (WeiboException e) {
-				log.error(e);
-				// in case exception, ignore, proceed with next one
-				return;
-			}
-			List<com.ranger.common.Tag> tags = new ArrayList<com.ranger.common.Tag>();
-			for(Tag t : wbTags) {
-				com.ranger.common.Tag tag = new com.ranger.common.Tag(null, t.getId(), t.getValue(), t.getWeight(), null);
-				tags.add(tag);
-			}
-			user.setTags(tags);
+//			com.ranger.common.User user =  userPool.next();
+//			List<Tag> wbTags = null;
+//			try {
+//				wbTags = tm.getTags(user.getUid());
+//			} catch (WeiboException e) {
+//				log.error(e);
+//				// in case exception, ignore, proceed with next one
+//				return;
+//			}
+//			List<com.ranger.common.Tag> tags = new ArrayList<com.ranger.common.Tag>();
+//			for(Tag t : wbTags) {
+//				com.ranger.common.Tag tag = new com.ranger.common.Tag(null, t.getId(), t.getValue(), t.getWeight(), null);
+//				tags.add(tag);
+//			}
+//			user.setTags(tags);
 		} else {
 			try {
 				StatusWapper status = tlm.getPublicTimeline(batchSize,0);//max count is 200
@@ -150,7 +150,7 @@ public class TimelineCollector implements Collector {
 	
 	@Override
 	public boolean isReadyToFlush() {
-		return !userPool.hasNext();
+		return userPool.hasNext();
 	}
 
 	@Override
