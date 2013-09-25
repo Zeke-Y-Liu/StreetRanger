@@ -51,9 +51,9 @@ public class DynamicCollectorScheduler {
 		while(currentRequestTimes < rateLimit.getRemainingUserHits() - 1) {
 			collector.collect();
 			currentRequestTimes ++;
-			if(collector.isReadyToFlush()) {
+			//if(collector.isReadyToFlush()) {
 				collector.flush2DB();
-			}
+			//}
 		} 
 		timeElapsed = (System.currentTimeMillis() - periodStartTime);
 		// it's after the reset time point, the request limit has been reset

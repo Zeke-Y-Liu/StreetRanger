@@ -59,7 +59,7 @@ public class TimelineCollector implements Collector {
 	// 3. loop the above steps recursively
 	@Override
 	public void collect() {
-		if(userPool.hasNext()) {
+// 		if(userPool.hasNext()) {
 //			com.ranger.common.User user =  userPool.next();
 //			List<Tag> wbTags = null;
 //			try {
@@ -75,7 +75,7 @@ public class TimelineCollector implements Collector {
 //				tags.add(tag);
 //			}
 //			user.setTags(tags);
-		} else {
+// 		} else {
 			try {
 				StatusWapper status = tlm.getPublicTimeline(batchSize,0);//max count is 200
 				for(Status s : status.getStatuses()){
@@ -125,7 +125,7 @@ public class TimelineCollector implements Collector {
 				e.printStackTrace();
 				return;
 			}
-		}
+		// }
 	}
 	
 	public int flush2DB() {
