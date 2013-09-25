@@ -47,6 +47,9 @@ public class DynamicCollectorScheduler {
 		long periodStartTime = System.currentTimeMillis();
 		long timeElapsed = 0;
 		long currentRequestTimes = 0;
+		
+		rateLimit = collector.getRateLimit();
+		log.info("[User Limit]: "+rateLimit.getUserLimit() +", [Remaining User Hits］: "+ rateLimit.getRemainingUserHits() +"\n");
 		// reverse latest request for RateLimit request
 		while(currentRequestTimes < rateLimit.getRemainingUserHits() - 1) {
 			collector.collect();
@@ -73,10 +76,6 @@ public class DynamicCollectorScheduler {
 				log.info("It will be more than 20 minutes before reqeust limit is reset., Suffering performance issue, considering multiple token" + " time =" + timeElapsed + " request=" + currentRequestTimes);
 			}
 		}
-		rateLimit = collector.getRateLimit();
-		
-		log.info("[User Limit]: "+rateLimit.getUserLimit() +", [Remaining User Hits］: "+ rateLimit.getRemainingUserHits() +"\n");
-		
 		return result;
 	}
 	
