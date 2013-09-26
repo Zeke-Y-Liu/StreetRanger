@@ -113,7 +113,9 @@ public class TimelineCollector implements Collector {
 							u.getStatusId(),
 							null // tags
 							);
+					userPool.add(user);
 				}
+				
 			} catch (WeiboException e) {
 				log.error(e);
 				e.printStackTrace();
