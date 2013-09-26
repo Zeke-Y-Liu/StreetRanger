@@ -31,5 +31,6 @@
 	<classpathentry kind="var" path="M2_REPO/commons-configuration/commons-configuration/1.9/commons-configuration-1.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/testng/testng/6.8.5/testng-6.8.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
