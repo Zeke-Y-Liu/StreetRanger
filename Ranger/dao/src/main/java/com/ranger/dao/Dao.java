@@ -20,8 +20,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-
-import com.ranger.collector.TimelineCollector;
 import com.ranger.common.DataField;
 import com.ranger.common.DataObject;
 import com.ranger.common.SQLConstant;
@@ -64,13 +62,19 @@ public class Dao {
 	public synchronized List<User> batchInsertUser(List<User> users) {
 		// duplicated check in db
 		for(int i=users.size() -1; i>0; i--) {
+			
 			User u = users.get(i);
+			log.error("user name=" + u.getName() + " ScreenName=" + u.getScreenName() + " UID=" + u.getUid());
 			if(loadUserByUid(u.getUid())==null) {
 				// OK doesn't exist in DB
 			} else {
 				users.remove(i);
-				log.warn("duplicated user, uid=" + u.getId());
+				log.warn("duplicated user, uid=" + u.getUid());
 			}
+		}
+		if(users.size()==0) {
+			log.warn("All users are duplicated!");
+			return users;
 		}
 		// batch insert users
 		List<DataObject> dataObjectList = new ArrayList<DataObject>();
