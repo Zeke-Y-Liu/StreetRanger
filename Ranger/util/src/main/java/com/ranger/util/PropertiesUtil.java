@@ -12,6 +12,7 @@ public class PropertiesUtil {
 	public static String ATTR_ACCESS_TOKEN = "accessToken";	
 	public static String ATTR_TIME_GAP_THRESHOLD = "timeGapThreshold";
 	public static String ATTR_BATCH_SIZE = "batchSize";
+	public static String ATTR_COLLECTOR_KICK_OFF_INTERVAL = "collectorKickOffInterval";
 	
     private PropertiesUtil() {  }
     /**

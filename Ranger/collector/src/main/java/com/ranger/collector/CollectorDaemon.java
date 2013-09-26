@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -28,15 +30,7 @@ public class CollectorDaemon {
 	static Logger log = Logger.getLogger(Collector.class.getName());
 	
 	public static void main(String args[]) {
-		String accessToken = null;
-		if(args.length > 0) {
-			accessToken = args[0];
-		}
-		
-		String intialUserPoolFileName = "initialUserPool.properties";
-		if(args.length > 1 && !StringUtils.trimToEmpty(args[1]).equals("")) {
-			intialUserPoolFileName = args[1];
-		}
+		String intialUserPoolFileName = "configuration.properties";
 		Configuration config = null;
 		try {
 			config = new PropertiesConfiguration(intialUserPoolFileName);
@@ -45,20 +39,24 @@ public class CollectorDaemon {
 			return;
 		}
 		
-		if(accessToken == null && !StringUtils.trimToEmpty(config.getString(PropertiesUtil.ATTR_ACCESS_TOKEN)).equals("") ) {
-			accessToken = StringUtils.trimToEmpty(config.getString(PropertiesUtil.ATTR_ACCESS_TOKEN));
-		} else {
-			log.error("no access token provided");
-			return;
-		}
-		
+		List<Object> accessTokenList =  config.getList(PropertiesUtil.ATTR_ACCESS_TOKEN);
+		int collectorKickOffInterval = config.getInt(PropertiesUtil.ATTR_COLLECTOR_KICK_OFF_INTERVAL);
 		long timeGapThreshold = config.getLong(PropertiesUtil.ATTR_TIME_GAP_THRESHOLD);
 		int batchSize = config.getInt(PropertiesUtil.ATTR_BATCH_SIZE);
-		Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken, batchSize);
-		DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
-		CollectorRunnable runnable = new CollectorRunnable(scheduler);
-		Thread collectorThread = new Thread(runnable);
-		collectorThread.start();
+		List<DynamicCollectorScheduler> schedulers = new ArrayList<DynamicCollectorScheduler>();
+		ScheduledThreadPoolExecutor threadScheduler = new ScheduledThreadPoolExecutor(accessTokenList.size());
+		
+		for(int i=0; i<accessTokenList.size(); i++) {
+			Collector collector = new TimelineCollector(SpringUtil.getDao(), (String)accessTokenList.get(i), batchSize);
+			DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
+			schedulers.add(scheduler);
+			CollectorRunnable runnable = new CollectorRunnable(scheduler);
+			// to make full use of limited requests and server resource, minimum the parallel threads, 
+			// kick off the collecting thread one by with predefined intervals
+			threadScheduler.schedule(runnable, collectorKickOffInterval*i, TimeUnit.SECONDS);
+//			Thread collectorThread = new Thread(runnable);
+//			collectorThread.start();
+		}
 		// get out of working thread's way.
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

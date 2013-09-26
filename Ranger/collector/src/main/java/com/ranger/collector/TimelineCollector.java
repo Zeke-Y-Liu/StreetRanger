@@ -113,12 +113,6 @@ public class TimelineCollector implements Collector {
 							u.getStatusId(),
 							null // tags
 							);
-					// duplicated check in db
-					if(dao.loadUserByUid(u.getId())==null) {
-						userPool.add(user);
-					} else {
-						log.warn("duplicated user, uid=" + u.getId());
-					}
 				}
 			} catch (WeiboException e) {
 				log.error(e);
@@ -129,9 +123,8 @@ public class TimelineCollector implements Collector {
 	}
 	
 	public int flush2DB() {
-		int count = userPool.size();
-		dao.batchInsertUser(userPool.dumpOut());
-		return count;
+		List<User> users = dao.batchInsertUser(userPool.dumpOut());
+		return users.size();
 	}
 
 	/*

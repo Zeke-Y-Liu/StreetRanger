@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -20,6 +21,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 
+import com.ranger.collector.TimelineCollector;
 import com.ranger.common.DataField;
 import com.ranger.common.DataObject;
 import com.ranger.common.SQLConstant;
@@ -31,6 +33,8 @@ import com.ranger.util.Bool;
 import com.ranger.common.Visible;
 
 public class Dao {
+	static Logger log = Logger.getLogger(Dao.class.getName());
+	
 	private JdbcTemplate jdbcTemplate;
 
 	public JdbcTemplate getJdbcTemplate() {
@@ -57,7 +61,17 @@ public class Dao {
 	/*
 	 * batch insert users return the same user object with PK
 	 */
-	public List<User> batchInsertUser(List<User> users) {
+	public synchronized List<User> batchInsertUser(List<User> users) {
+		// duplicated check in db
+		for(int i=users.size() -1; i>0; i--) {
+			User u = users.get(i);
+			if(loadUserByUid(u.getUid())==null) {
+				// OK doesn't exist in DB
+			} else {
+				users.remove(i);
+				log.warn("duplicated user, uid=" + u.getId());
+			}
+		}
 		// batch insert users
 		List<DataObject> dataObjectList = new ArrayList<DataObject>();
 		dataObjectList.addAll(users);
