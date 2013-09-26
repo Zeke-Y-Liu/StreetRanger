@@ -1,7 +1,6 @@
 package com.ranger.collector;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +38,15 @@ public class CollectorDaemon {
 			return;
 		}
 		
-		List<Object> accessTokenList =  config.getList(PropertiesUtil.ATTR_ACCESS_TOKEN);
+		String[] accessTokens = config.getStringArray(PropertiesUtil.ATTR_ACCESS_TOKEN);
 		int collectorKickOffInterval = config.getInt(PropertiesUtil.ATTR_COLLECTOR_KICK_OFF_INTERVAL);
 		long timeGapThreshold = config.getLong(PropertiesUtil.ATTR_TIME_GAP_THRESHOLD);
 		int batchSize = config.getInt(PropertiesUtil.ATTR_BATCH_SIZE);
 		List<DynamicCollectorScheduler> schedulers = new ArrayList<DynamicCollectorScheduler>();
-		ScheduledThreadPoolExecutor threadScheduler = new ScheduledThreadPoolExecutor(accessTokenList.size());
-		
-		for(int i=0; i<accessTokenList.size(); i++) {
-			String accessToken = StringUtils.trimToEmpty((String)accessTokenList.get(i));
+		ScheduledThreadPoolExecutor threadScheduler = new ScheduledThreadPoolExecutor(accessTokens.length);
+
+		for(int i=0; i<accessTokens.length; i++) {
+			String accessToken = StringUtils.trimToEmpty(accessTokens[i]);
 			Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken, batchSize);
 			DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
 			schedulers.add(scheduler);
