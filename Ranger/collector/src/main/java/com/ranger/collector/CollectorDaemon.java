@@ -47,7 +47,8 @@ public class CollectorDaemon {
 		ScheduledThreadPoolExecutor threadScheduler = new ScheduledThreadPoolExecutor(accessTokenList.size());
 		
 		for(int i=0; i<accessTokenList.size(); i++) {
-			Collector collector = new TimelineCollector(SpringUtil.getDao(), (String)accessTokenList.get(i), batchSize);
+			String accessToken = StringUtils.trimToEmpty((String)accessTokenList.get(i));
+			Collector collector = new TimelineCollector(SpringUtil.getDao(), accessToken, batchSize);
 			DynamicCollectorScheduler scheduler = new DynamicCollectorScheduler(collector, timeGapThreshold);
 			schedulers.add(scheduler);
 			CollectorRunnable runnable = new CollectorRunnable(scheduler);
