@@ -64,7 +64,7 @@ public class Dao {
 		for(int i=users.size() -1; i>=0; i--) {
 			
 			User u = users.get(i);
-			log.error("user name=" + u.getName() + " ScreenName=" + u.getScreenName() + " UID=" + u.getUid());
+			log.info("user name=" + u.getName() + " ScreenName=" + u.getScreenName() + " UID=" + u.getUid());
 			if(loadUserByUid(u.getUid())==null) {
 				// OK doesn't exist in DB
 			} else {
