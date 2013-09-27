@@ -61,7 +61,7 @@ public class Dao {
 	 */
 	public synchronized List<User> batchInsertUser(List<User> users) {
 		// duplicated check in db
-		for(int i=users.size() -1; i>0; i--) {
+		for(int i=users.size() -1; i>=0; i--) {
 			
 			User u = users.get(i);
 			log.error("user name=" + u.getName() + " ScreenName=" + u.getScreenName() + " UID=" + u.getUid());
