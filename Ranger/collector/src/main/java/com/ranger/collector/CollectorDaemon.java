@@ -62,9 +62,9 @@ public class CollectorDaemon {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String commandLine = "";
 		try {
-			while(!CMD_STOP.equalsIgnoreCase(commandLine)) {
+			Thread.sleep(3000);
+			while(!CMD_STOP.equalsIgnoreCase(commandLine)) {				
 				commandLine = reader.readLine();
-				Thread.sleep(3000);
 			}
 		} catch (Exception e) {
 			log.error(e);
