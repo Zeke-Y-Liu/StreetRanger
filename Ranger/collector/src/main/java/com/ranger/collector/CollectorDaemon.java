@@ -2,6 +2,8 @@ package com.ranger.collector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -12,8 +14,10 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import com.ranger.dao.SpringUtil;
 import com.ranger.util.PropertiesUtil;
+import com.ranger.util.Util;
 
 /*
  * run this class with parameter 
@@ -26,15 +30,17 @@ import com.ranger.util.PropertiesUtil;
 public class CollectorDaemon {
 	private static String CMD_STOP = "stop";
 	
-	static Logger log = Logger.getLogger(Collector.class.getName());
+	static Logger log = Logger.getLogger(CollectorDaemon.class.getName());
 	
 	public static void main(String args[]) {
-		String intialUserPoolFileName = "configuration.properties";
+				
+		String configFileName = Util.getBaseDir() + "config/configuration.properties";
 		Configuration config = null;
 		try {
-			config = new PropertiesConfiguration(intialUserPoolFileName);
+			config = new PropertiesConfiguration(configFileName);
 		} catch (ConfigurationException e) {
-			log.error("unable to load initial user pool file" + intialUserPoolFileName, e);
+			log.error("unable to load configuration file:" + configFileName, e);
+			System.out.println("adasdfasdfdsf");
 			return;
 		}
 		
