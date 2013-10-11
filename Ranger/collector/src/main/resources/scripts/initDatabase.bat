@@ -1,5 +1,10 @@
-set MYSQL_HOME=D:\tmp\mysqlCopy
-@echo off 
+@echo off
+set MYSQL_HOME=
+if "x%MYSQL_HOME%" == "x" (
+	echo Please set MYSQL_HOME
+	exit /b 0
+)
+
 SET /P ANSWER=Initilize the database will remove all the data in ranger database if exists, do you want to continue (Y/N)? 
 echo You chose: %ANSWER% 
 if /i {%ANSWER%}=={y} (goto :yes) 
