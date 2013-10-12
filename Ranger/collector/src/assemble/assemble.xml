@@ -26,7 +26,7 @@
 			<outputDirectory>/config</outputDirectory>
 		</file>
 		<file>
-			<source>src/main/resources/scripts/dbscript.sql</source>
+			<source>src/main/resources/scripts/initial.sql</source>
 			<outputDirectory>/bin</outputDirectory>
 		</file>
 		<file>
